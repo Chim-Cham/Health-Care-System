@@ -1,11 +1,11 @@
 namespace HCS;
 
-class Admin : IUser
+class Personnel : IUser
 {
     public string Username;
     string _password;
 
-    public Admin(string username, string password)
+    public Personnel(string username, string password)
     {
         Username = username;
         _password = password;
