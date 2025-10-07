@@ -1,7 +1,8 @@
 ﻿
 
-bool active_user = false;
+IUser? active_user = null;
 bool running = true;
+
 
 // skapar första menyn ifall active_user == false. 
 if (active_user == false)
@@ -49,4 +50,5 @@ if (active_user == false)
         }
     }
 }
+
 
