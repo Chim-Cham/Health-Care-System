@@ -1,5 +1,6 @@
 namespace HCS;
 
+// det har blivit ett felmeddelande här. IUser har som krav att varje användare ska ha tryLogin och Getrole 
 class Personnel : IUser
 {
     public string Username;
