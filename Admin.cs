@@ -10,4 +10,9 @@ class Admin : IUser
         Username = username;
         _password = password;
     }
+
+    public string ToFileString()
+    {
+        return $"{Username};{_password}";
+    }
 }
