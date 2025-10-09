@@ -34,6 +34,23 @@ if (active_user == null)
 
             //lägga till log in 
 
+            active_user = null;
+            foreach (User user in users)
+            {
+                if (user.TryLogin(username, password))
+                {
+                    active_user = user;
+                    break;
+                }
+            }
+
+            if (active_user == null)
+            {
+                Console.WriteLine("Login failed. Press Enter to continue"):
+                Console.ReadLine();
+                continue;
+            }
+            break;
         }
 
         //ifall create user väljs
