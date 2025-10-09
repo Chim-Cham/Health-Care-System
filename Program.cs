@@ -26,6 +26,8 @@ if (active_user == null)
         // ifall log in väljs.
         if (menu1 == "1")
         {
+
+            // såhär kan det se ut det är inte det slutgiltiga.
             Console.WriteLine("Email:");
             string name = Console.ReadLine();
 
@@ -39,14 +41,7 @@ if (active_user == null)
         //ifall create user väljs
         if (menu1 == "2")
         {
-            Console.WriteLine("Email:");
-            string name = Console.ReadLine();
-
-            Console.WriteLine("Password:");
-            string passwrod = Console.ReadLine();
-
             //lägga till create
-
         }
 
         // ifall quit väljs

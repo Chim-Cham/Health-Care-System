@@ -11,8 +11,4 @@ class Admin : IUser
         _password = password;
     }
 
-    public string ToFileString()
-    {
-        return $"{Username};{_password}";
-    }
 }
