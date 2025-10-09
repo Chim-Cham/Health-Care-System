@@ -10,4 +10,8 @@ public class Patient : IUser
         Email = email;
         _password = password;
     }
+    public string ToFileString(string username, string password)
+    {
+        return $"{Email};{_password}";
+    }
 }

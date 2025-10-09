@@ -81,7 +81,7 @@ class Filemanage
 
 
         //Här har jag gjort så att man lägger till en annändare som är admin men vet inte hur jag ska ta mig till väga härifrån
-        public static void AddUser(string AdminFilepath)
+        public static void AddUser(string PatientFilePath)
         {
 
             // Ber användaren skriva in email
@@ -96,13 +96,13 @@ class Filemanage
             string password = Console.ReadLine();
 
             // Skapar ett nytt User-objekt med den inmatade datan
-            Admin newAdmin = new Admin(email, password);
+            Patient newPatient = new Patient(email, password);
 
             // Öppnar filen för att lägga till text i slutet
-            using (StreamWriter writer = new StreamWriter(AdminFilepath, append: true))
+            using (StreamWriter writer = new StreamWriter(PatientFilePath, append: true))
             {
                 // Hämtar metoden för att skriva in användaren i filen.
-                writer.WriteLine(newAdmin.ToFileString());
+                writer.WriteLine(newPatient.ToString());
             }
 
             // Bekräftar att användaren sparades
