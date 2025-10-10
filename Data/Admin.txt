@@ -1,1 +1,5 @@
-Admin;password
+lina;admin
+david;admin
+gustav;admin
+samaad;admin
+imran;admin
