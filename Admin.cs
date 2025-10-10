@@ -6,16 +6,28 @@ class Admin : IUser
     string _password;
 
     // get role för admin 
-    public Role GetRole()
-    {
-        return Role.Admin;
-    }
+
 
 
     public Admin(string username, string password)
     {
         Username = username;
         _password = password;
+    }
+
+    public bool TryLogin(string username, string password)
+    {
+        return username == Username && password == _password;
+    }
+
+    public bool IsRole(Role role)
+    {
+        return Role.Admin == role;
+    }
+
+    public Role GetRole()
+    {
+        return Role.Admin;
     }
 
     // denna kan man override för en annan meny för andra användare. 
@@ -64,8 +76,8 @@ class Admin : IUser
                     break;
 
                 case "7":
-                // en lösning här hade behövts!!!!!
-                    active_user = null;
+                    // en lösning här hade behövts!!!!!
+                    //   active_user = null;
                     break;
 
                 case "8":
@@ -73,6 +85,7 @@ class Admin : IUser
                     break;
             }
         }
+
     }
 
 }
