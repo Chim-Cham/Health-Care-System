@@ -11,4 +11,19 @@ class Admin : IUser
         _password = password;
     }
 
+    public bool TryLogin(string username, string password)
+    {
+        return username == Username && password == _password;
+    }
+
+    public bool IsRole(Role role)
+    {
+        return Role.Admin == role;
+    }
+
+    public Role GetRole()
+    {
+        return Role.Admin;
+    }
+
 }

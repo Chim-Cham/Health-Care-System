@@ -2,7 +2,9 @@ namespace HCS;
 
 interface IUser
 {
-    public bool TryLogin(string username, string password, Role role);
+    public bool TryLogin(string username, string password);
+
+    public bool IsRole(Role role);
     public Role GetRole();
 }
 
