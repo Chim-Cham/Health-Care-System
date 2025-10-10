@@ -6,10 +6,7 @@ class Admin : IUser
     string _password;
 
     // get role för admin 
-    public Role GetRole()
-    {
-        return Role.Admin;
-    }
+
 
 
     public Admin(string username, string password)
@@ -64,8 +61,8 @@ class Admin : IUser
                     break;
 
                 case "7":
-                // en lösning här hade behövts!!!!!
-                    active_user = null;
+                    // en lösning här hade behövts!!!!!
+                    //   active_user = null;
                     break;
 
                 case "8":
@@ -73,6 +70,7 @@ class Admin : IUser
                     break;
             }
         }
+
     }
 
 }
