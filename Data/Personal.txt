@@ -1,5 +1,5 @@
-lina;personnel
-david;personnel
-gustav;personnel
-samaad;personnel
-imran;personnel
+lina;staff
+david;staff
+gustav;staff
+samaad;staff
+imran;staff
