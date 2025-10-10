@@ -4,6 +4,7 @@ string AdminFilepath = Path.Combine("Data", "Admin.txt");
 string PatientFilePath = Path.Combine("Data", "Patient.txt");
 string PersonnelFilepath = Path.Combine("Data", "Persnoal.txt");
 
+
 IUser? active_user = null;
 bool running = true;
 
@@ -43,6 +44,7 @@ if (active_user == null)
         //ifall create user väljs
         if (menu1 == "2")
         {
+            
             //lägga till create
         }
 
