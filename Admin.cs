@@ -15,23 +15,8 @@ class Admin : IUser
         _password = password;
     }
 
-    public bool TryLogin(string username, string password)
-    {
-        return username == Username && password == _password;
-    }
-
-    public bool IsRole(Role role)
-    {
-        return Role.Admin == role;
-    }
-
-    public Role GetRole()
-    {
-        return Role.Admin;
-    }
-
-    // denna kan man override för en annan meny för andra användare. 
-    public virtual void MenuAdmin()
+    // denna override för Admin meny 
+    public void Menu()
     {
         bool runningAdmin = true;
         while (runningAdmin)

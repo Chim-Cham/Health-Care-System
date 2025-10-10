@@ -12,18 +12,37 @@ class Personnel : IUser
         _password = password;
     }
 
-    public bool TryLogin(string username, string password)
+    public void Menu()
     {
-        return username == Username && password == _password;
-    }
+        bool runningPersonnel = true;
 
-    public bool IsRole(Role role)
-    {
-        return Role.Personnel == role;
-    }
+        while(runningPersonnel)
+        {
+            Console.Clear();
+            Console.WriteLine("-----Healtcare-----");
+            Console.WriteLine("1. Schedual");
+            Console.WriteLine("2. Journal");
+            Console.WriteLine("3. bocking");
+            Console.WriteLine("4. Logout");
+            Console.WriteLine("5. Quit");
 
-    public Role GetRole()
-    {
-        return Role.Personnel;
+            switch(Console.ReadLine())
+            {
+                case "1":
+                    break;
+
+                case "2":
+                    break;
+
+                case "3":
+                    break;
+
+                case "4":
+                    break;
+
+                case "5":
+                    break;
+            }
+        }
     }
 }
