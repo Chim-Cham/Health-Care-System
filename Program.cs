@@ -7,11 +7,14 @@ string AdminFilepath = Path.Combine("Data", "Admin.txt");
 string PatientFilePath = Path.Combine("Data", "Patient.txt");
 string PersonnelFilepath = Path.Combine("Data", "Persnoal.txt");
 
-//kallar metoden EnsurePath för alla 3 txt filer
-Filemanage.EnsurePath(AdminFilepath, PatientFilePath, PersonnelFilepath);
+
 
 IUser? active_user = null;
 bool running = true;
+
+//kallar metoden EnsurePath för alla 3 txt filer
+Filemanage.EnsurePath(AdminFilepath, PatientFilePath, PersonnelFilepath);
+
 
 while (running)
 {
@@ -56,6 +59,7 @@ while (running)
         //ifall create user väljs
         if (menu1 == "2")
         {
+
             try { Console.Clear(); } catch { }
             Console.WriteLine("Enter your email");
             string newEmail = Console.ReadLine();
@@ -69,6 +73,8 @@ while (running)
             try { Console.Clear(); } catch { }
             Console.WriteLine("Account successfully registerd, press enter to log in");
             Console.ReadLine();
+
+            //lägga till create
 
         }
 
