@@ -1,3 +1,5 @@
+using System.ComponentModel.Design;
+
 namespace HCS;
 
 interface IUser
@@ -6,6 +8,11 @@ interface IUser
 
     public bool IsRole(Role role);
     public Role GetRole();
+
+    public void Menu()
+    {
+        //detta är bara för att alla ska ha meny 
+    }
 }
 
 enum Role

@@ -76,10 +76,6 @@ class Filemanage
     //skapar en class för att lägga till användare 
     class Add
     {
-
-
-
-
         //Här har jag gjort så att man lägger till en annändare som är admin men vet inte hur jag ska ta mig till väga härifrån
         public static void AddUser(string PatientFilePath)
         {
@@ -102,7 +98,7 @@ class Filemanage
             using (StreamWriter writer = new StreamWriter(PatientFilePath, append: true))
             {
                 // Hämtar metoden för att skriva in användaren i filen.
-                writer.WriteLine(newPatient.ToFileString(email,password));
+                writer.WriteLine(newPatient.ToFileString(email, password));
             }
 
             // Bekräftar att användaren sparades
@@ -111,7 +107,24 @@ class Filemanage
         }
     }
 
+    class Journal
+    {
+        public static void Journalwriter()
+        {
+            try { Console.Clear(); } catch{ }
+            Console.WriteLine("Patient name: ");
+            string name = Console.ReadLine();
 
+            try { Console.Clear(); } catch { }
+            Console.WriteLine("Journal: ");
+            string inJournal = Console.ReadLine();
+
+            // detta är ett test
+            Personnel newjournal = new Personnel(name, inJournal);
+
+        }
+    }
+    
 
 }
 

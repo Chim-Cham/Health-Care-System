@@ -19,36 +19,76 @@ class Staff : IUser
         return $"{Username};{_password}";
     }
 
-    public static void addStaff(string StaffFilepath) 
 
-{ 
+    public string ToJournalFile(string name,string journal)
+    {
+        return $"{name};{journal}";
+    }
 
-// Ber användaren skriva in email 
+    public static void addStaff(string StaffFilepath)
 
-Console.WriteLine("Create Staff Username: "); 
-string username = Console.ReadLine(); 
+    {
 
- 
-// Ber användaren skriva in lösenord 
-Console.WriteLine("Create Staff Password"); 
-string password = Console.ReadLine(); 
+        // Ber användaren skriva in email 
 
- 
-// Skapar ett nytt staff member med den inmatade datan 
-Staff newStaff = new Staff(username, password); 
+        Console.WriteLine("Create Staff Username: ");
+        string username = Console.ReadLine();
 
 
-// Öppnar filen för att lägga till text i slutet 
+        // Ber användaren skriva in lösenord 
+        Console.WriteLine("Create Staff Password");
+        string password = Console.ReadLine();
 
-using (StreamWriter writer = new StreamWriter(StaffFilepath, append: true)) 
-{ 
-// Hämtar metoden för att skriva in användaren i filen. 
-writer.WriteLine(newStaff.ToFileString(username, password)); 
-} 
 
-// Bekräftar att användaren sparades 
-Console.WriteLine($"User '{username}' have been added!"); 
-Console.ReadLine(); 
-} 
+        // Skapar ett nytt staff member med den inmatade datan 
+        Staff newStaff = new Staff(username, password);
 
-} 
+
+        // Öppnar filen för att lägga till text i slutet 
+
+        using (StreamWriter writer = new StreamWriter(StaffFilepath, append: true))
+        {
+            // Hämtar metoden för att skriva in användaren i filen. 
+            writer.WriteLine(newStaff.ToFileString(username, password));
+        }
+
+        // Bekräftar att användaren sparades 
+        Console.WriteLine($"User '{username}' have been added!");
+        Console.ReadLine();
+    }
+
+    public void Menu()
+    {
+        bool runningPersonnel = true;
+
+        while (runningPersonnel)
+        {
+            Console.Clear();
+            Console.WriteLine("-----Healtcare-----");
+            Console.WriteLine("1. Schedual");
+            Console.WriteLine("2. Journal");
+            Console.WriteLine("3. bocking");
+            Console.WriteLine("4. Logout");
+            Console.WriteLine("5. Quit");
+
+            switch (Console.ReadLine())
+            {
+                case "1":
+                    break;
+
+                case "2":
+                    break;
+
+                case "3":
+                    break;
+
+                case "4":
+                    break;
+
+                case "5":
+                    break;
+            }
+        }
+    }
+
+}
