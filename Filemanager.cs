@@ -4,12 +4,14 @@ namespace HCS;
 
 public class Filemanage
 {
-    public static void EnsurePath(string AdminFilepath, string PatientFilePath, string StaffFilepath)
+    public static void EnsurePath(string AdminFilepath, string PatientFilePath, string StaffFilepath, string JournalFilepath)
     {
         string directoryAdmin = Path.GetDirectoryName(AdminFilepath);
         string directoryPatient = Path.GetDirectoryName(PatientFilePath);
         string directoryStaff = Path.GetDirectoryName(StaffFilepath);
+        string directoryJournal = Path.GetDirectoryName(JournalFilepath);
 
+        
         // kontorllerar att filen Admin.txt finns
         if (!string.IsNullOrEmpty(directoryAdmin))
         {
@@ -40,6 +42,16 @@ public class Filemanage
             {
                 Directory.CreateDirectory(directoryStaff);
                 Console.WriteLine($"Created file: {directoryStaff}");
+            }
+        }
+
+        if (!string.IsNullOrEmpty(directoryJournal))
+        {
+            //ifall filen inte finns så skapas den filen
+            if (!Directory.Exists(directoryJournal))
+            {
+                Directory.CreateDirectory(directoryJournal);
+                Console.WriteLine($"Created file: {directoryJournal}");
             }
         }
     }
@@ -110,11 +122,13 @@ public class Filemanage
         }
     }
 
+
+// detta är nytt för journal 
     class Journal
     {
-        public static void Journalwriter()
+        public static void Journalwriter(string JournalFilePath)
         {
-            try { Console.Clear(); } catch{ }
+            try { Console.Clear(); } catch { }
             Console.WriteLine("Patient name: ");
             string name = Console.ReadLine();
 
@@ -125,6 +139,12 @@ public class Filemanage
             // detta är ett test
             Staff newjournal = new Staff(name, inJournal);
 
+            using (StreamWriter writer = new StreamWriter(JournalFilePath, append: true))
+            {
+                writer.WriteLine(newjournal.ToJournalFile(name, inJournal));
+            }
+            Console.WriteLine($"Journal for patient: {name} have been added");
+            Console.ReadLine();
         }
     }
     
