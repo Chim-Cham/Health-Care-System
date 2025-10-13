@@ -9,7 +9,7 @@ interface IUser
 public enum Role
 {
     None,
-    Personnel,
+    Staff,
     Patient,
     Admin,
 }

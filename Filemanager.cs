@@ -2,14 +2,13 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace HCS;
 
-
 public class Filemanage
 {
-    public static void EnsurePath(string AdminFilepath, string PatientFilePath, string PersonnelFilepath)
+    public static void EnsurePath(string AdminFilepath, string PatientFilePath, string StaffFilepath)
     {
         string directoryAdmin = Path.GetDirectoryName(AdminFilepath);
         string directoryPatient = Path.GetDirectoryName(PatientFilePath);
-        string directoryPersonnel = Path.GetDirectoryName(PersonnelFilepath);
+        string directoryStaff = Path.GetDirectoryName(StaffFilepath);
 
         // kontorllerar att filen Admin.txt finns
         if (!string.IsNullOrEmpty(directoryAdmin))
@@ -33,14 +32,14 @@ public class Filemanage
             }
         }
 
-        // kontorllerar att filen Personal.txt finns
-        if (!string.IsNullOrEmpty(directoryPersonnel))
+        // kontorllerar att filen Staff.txt finns
+        if (!string.IsNullOrEmpty(directoryStaff))
         {
             //ifall filen inte finns så skapas den filen
-            if (!Directory.Exists(directoryPersonnel))
+            if (!Directory.Exists(directoryStaff))
             {
-                Directory.CreateDirectory(directoryPersonnel);
-                Console.WriteLine($"Created file: {directoryPersonnel}");
+                Directory.CreateDirectory(directoryStaff);
+                Console.WriteLine($"Created file: {directoryStaff}");
             }
         }
     }
@@ -65,10 +64,10 @@ public class Filemanage
             return new Patient(patientParts[0], patientParts[1]);
         }
 
-        public static Personnel FromFileToStringPersonnel(string line)
+        public static Staff FromFileToStringStaff(string line)
         {
-            string[] personnelParts = line.Split(";");
-            return new Personnel(personnelParts[0], personnelParts[1]);
+            string[] staffParts = line.Split(";");
+            return new Staff(staffParts[0], staffParts[1]);
         }
     }
 
@@ -78,9 +77,9 @@ public class Filemanage
     {
 
 
-
-
         //Här har jag gjort så att man lägger till en användare som är admin men vet inte hur jag ska ta mig till väga härifrån
+
+        //endast metod för att lägga till patient
         public static void AddUser(string PatientFilePath)
         {
 
@@ -112,7 +111,7 @@ public class Filemanage
     }
 
     //Loadusers hämtar datan från textfilerna och laddar de innan programmet startar. sen kallas metoden i program.cs
-    public static void LoadUsers(string AdminFilepath, string PatientFilePath, string PersonnelFilepath, List<Admin> admins, List<Patient> patients, List<Personnel> personnel)
+    public static void LoadUsers(string AdminFilepath, string PatientFilePath, string StaffFilepath, List<Admin> admins, List<Patient> patients, List<Staff> staff)
     {
         //laddar alla admins inlogg 
         if (File.Exists(AdminFilepath))
@@ -148,26 +147,21 @@ public class Filemanage
         }
 
         //laddar alla personnel inlogg så de kan matcha när man loggar in 
-        if (File.Exists(PersonnelFilepath))
+        if (File.Exists(StaffFilepath))
         {
-            string[] lines = File.ReadAllLines(PersonnelFilepath);
+            string[] lines = File.ReadAllLines(StaffFilepath);
             foreach (string line in lines)
             {
                 if (line != "") //ignorera tomma rader 
                 {
-                    Personnel p = ReadUser.FromFileToStringPersonnel(line); //hämtar metod ReadUser
-                    personnel.Add(p);
+                    Staff p = ReadUser.FromFileToStringStaff(line); //hämtar metod ReadUser
+                    staff.Add(p);
                 }
 
             }
 
         }
     }
-
-
-
-
-
 
 }
 

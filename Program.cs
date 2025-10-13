@@ -4,12 +4,12 @@ using HCS;
 // List<IUser> users = new();
 List<Patient> patients = new();
 List<Admin> admins = new();
-List<Personnel> personnel = new();
+List<Personnel> staff = new();
 
 
 string AdminFilepath = Path.Combine("Data", "Admin.txt");
 string PatientFilePath = Path.Combine("Data", "Patient.txt");
-string PersonnelFilepath = Path.Combine("Data", "Persnoal.txt");
+string StaffFilepath = Path.Combine("Data", "Staff.txt");
 
 
 
@@ -17,9 +17,9 @@ IUser? active_user = null;
 bool running = true;
 
 //kallar metoden EnsurePath för alla 3 txt filer
-Filemanage.EnsurePath(AdminFilepath, PatientFilePath, PersonnelFilepath);
+Filemanage.EnsurePath(AdminFilepath, PatientFilePath, StaffFilepath);
 
-Filemanage.LoadUsers(AdminFilepath, PatientFilePath, PersonnelFilepath, admins, patients, personnel);
+Filemanage.LoadUsers(AdminFilepath, PatientFilePath, StaffFilepath, admins, patients, staff);
 
 
 while (running)
@@ -56,6 +56,31 @@ while (running)
                     break;
                 }
             }
+            if (active_user == null)
+            {
+                foreach (Admin user in admins)
+                {
+                    if (user.TryLogin(username, password))
+                    {
+                        active_user = user;
+                        break;
+                    }
+
+                }
+            }
+
+            if (active_user == null)
+            {
+                foreach (Staff user in staff)
+                {
+                    if (user.TryLogin(username, password))
+                    {
+                        active_user = user;
+                        break;
+                    }
+                }
+            }
+
             if (active_user == null) //om inlogg inte funkar kommmer fel meddelande
             {
                 Console.WriteLine("No matching user, try again or create an account, press enter to go back");
