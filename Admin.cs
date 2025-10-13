@@ -15,6 +15,8 @@ public class Admin : IUser
         _password = password;
     }
 
+    // denna override för Admin meny 
+    
     public bool TryLogin(string username, string password)
     {
         return username == Username && password == _password;
@@ -26,7 +28,7 @@ public class Admin : IUser
     }
 
     // denna kan man override för en annan meny för andra användare. 
-    public virtual void MenuAdmin()
+    public void Menu()
     {
         bool runningAdmin = true;
         while (runningAdmin)

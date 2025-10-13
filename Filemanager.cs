@@ -110,6 +110,24 @@ public class Filemanage
         }
     }
 
+    class Journal
+    {
+        public static void Journalwriter()
+        {
+            try { Console.Clear(); } catch{ }
+            Console.WriteLine("Patient name: ");
+            string name = Console.ReadLine();
+
+            try { Console.Clear(); } catch { }
+            Console.WriteLine("Journal: ");
+            string inJournal = Console.ReadLine();
+
+            // detta är ett test
+            Staff newjournal = new Staff(name, inJournal);
+
+        }
+    }
+    
     //Loadusers hämtar datan från textfilerna och laddar de innan programmet startar. sen kallas metoden i program.cs
     public static void LoadUsers(string AdminFilepath, string PatientFilePath, string StaffFilepath, List<Admin> admins, List<Patient> patients, List<Staff> staff)
     {

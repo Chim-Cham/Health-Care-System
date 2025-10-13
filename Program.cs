@@ -4,7 +4,7 @@ using HCS;
 // List<IUser> users = new();
 List<Patient> patients = new();
 List<Admin> admins = new();
-List<Personnel> staff = new();
+List<Staff> staff = new();
 
 
 string AdminFilepath = Path.Combine("Data", "Admin.txt");
