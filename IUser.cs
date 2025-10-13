@@ -5,8 +5,6 @@ namespace HCS;
 interface IUser
 {
     public bool TryLogin(string username, string password);
-
-    public bool IsRole(Role role);
     public Role GetRole();
 
     public void Menu()
@@ -15,7 +13,7 @@ interface IUser
     }
 }
 
-enum Role
+public enum Role
 {
     None,
     Staff,

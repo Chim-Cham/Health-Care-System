@@ -1,6 +1,6 @@
 namespace HCS;
 
-class Admin : IUser
+public class Admin : IUser
 {
     public string Username;
     string _password;
@@ -16,6 +16,18 @@ class Admin : IUser
     }
 
     // denna override för Admin meny 
+    
+    public bool TryLogin(string username, string password)
+    {
+        return username == Username && password == _password;
+    }
+
+    public Role GetRole()
+    {
+        return Role.Admin;
+    }
+
+    // denna kan man override för en annan meny för andra användare. 
     public void Menu()
     {
         bool runningAdmin = true;

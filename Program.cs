@@ -1,7 +1,11 @@
-﻿using HCS;
+﻿using System.ComponentModel;
+using HCS;
 
-List<IUser> users = new();
+// List<IUser> users = new();
 List<Patient> patients = new();
+List<Admin> admins = new();
+List<Staff> staff = new();
+
 
 string AdminFilepath = Path.Combine("Data", "Admin.txt");
 string PatientFilePath = Path.Combine("Data", "Patient.txt");
@@ -15,12 +19,15 @@ bool running = true;
 //kallar metoden EnsurePath för alla 3 txt filer
 Filemanage.EnsurePath(AdminFilepath, PatientFilePath, StaffFilepath);
 
+Filemanage.LoadUsers(AdminFilepath, PatientFilePath, StaffFilepath, admins, patients, staff);
+
 
 while (running)
 {
     if (active_user == null)
     {
         //meny valen! Välj med 1-3
+        try { Console.Clear(); } catch { }
         Console.WriteLine("Health Care System, choose one of the options (1-3)");
         Console.WriteLine("1. Log in");
         Console.WriteLine("2. Register as a patient");
@@ -40,7 +47,8 @@ while (running)
             Console.Write("Password:");
             string password = Console.ReadLine();
 
-            foreach (IUser user in users)
+            try { Console.Clear(); } catch { }
+            foreach (Patient user in patients)
             {
                 if (user.TryLogin(username, password))
                 {
@@ -48,33 +56,44 @@ while (running)
                     break;
                 }
             }
-            // if (active_user == null)
-            // {
-            //     Console.WriteLine("No matching user, try again or create an account, press enter to go back");
-            //     Console.ReadLine();
-            // }
-            // break;
+            if (active_user == null)
+            {
+                foreach (Admin user in admins)
+                {
+                    if (user.TryLogin(username, password))
+                    {
+                        active_user = user;
+                        break;
+                    }
+
+                }
+            }
+
+            if (active_user == null)
+            {
+                foreach (Staff user in staff)
+                {
+                    if (user.TryLogin(username, password))
+                    {
+                        active_user = user;
+                        break;
+                    }
+                }
+            }
+
+            if (active_user == null) //om inlogg inte funkar kommmer fel meddelande
+            {
+                Console.WriteLine("No matching user, try again or create an account, press enter to go back");
+                Console.ReadLine();
+            }
+
         }
 
         //ifall create user väljs
         if (menu1 == "2")
         {
-
-            try { Console.Clear(); } catch { }
-            Console.WriteLine("Enter your email");
-            string newEmail = Console.ReadLine();
-
-            try { Console.Clear(); } catch { }
-            Console.WriteLine("Create password");
-            string newPassword = Console.ReadLine();
-
-            patients.Add(new Patient(newEmail, newPassword));
-
-            try { Console.Clear(); } catch { }
-            Console.WriteLine("Account successfully registerd, press enter to log in");
-            Console.ReadLine();
-
-            //lägga till create
+            //kallar på metod i Filemanager, class Filemanage och metod heter add patient, man kan bara lägga till patienter här 
+            Filemanage.AddPatient.AddUser(PatientFilePath);
 
         }
 

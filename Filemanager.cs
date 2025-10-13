@@ -2,8 +2,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace HCS;
 
-
-class Filemanage
+public class Filemanage
 {
     public static void EnsurePath(string AdminFilepath, string PatientFilePath, string StaffFilepath)
     {
@@ -52,31 +51,35 @@ class Filemanage
     {
         string line;
 
-        //Läser in från filen anändarnamn och lösenord - koppla denna till log in.
+        //Läser in från filen anändarnamn och lösenord och splitar så vi kan använda detta när vi ska ladda alla users. 
         public static Admin FromFileToStringAdmin(string line)
         {
-            string[] parts = line.Split(";");
-            return new Admin(parts[0], parts[1]);
+            string[] adminParts = line.Split(";");
+            return new Admin(adminParts[0], adminParts[1]);
         }
 
         public static Patient FromFileToStringPatient(string line)
         {
-            string[] parts = line.Split(";");
-            return new Patient(parts[0], parts[1]);
+            string[] patientParts = line.Split(";");
+            return new Patient(patientParts[0], patientParts[1]);
         }
 
         public static Staff FromFileToStringStaff(string line)
         {
-            string[] parts = line.Split(";");
-            return new Staff(parts[0], parts[1]);
+            string[] staffParts = line.Split(";");
+            return new Staff(staffParts[0], staffParts[1]);
         }
     }
 
 
     //skapar en class för att lägga till användare 
-    class Add
+    public class AddPatient
     {
-        //Här har jag gjort så att man lägger till en annändare som är admin men vet inte hur jag ska ta mig till väga härifrån
+
+
+        //Här har jag gjort så att man lägger till en användare som är admin men vet inte hur jag ska ta mig till väga härifrån
+
+        //endast metod för att lägga till patient
         public static void AddUser(string PatientFilePath)
         {
 
@@ -102,7 +105,7 @@ class Filemanage
             }
 
             // Bekräftar att användaren sparades
-            Console.WriteLine($"User '{email}' have been added!");
+            Console.WriteLine($"User '{email}' have been added!, press ENTER to go back to login");
             Console.ReadLine();
         }
     }
@@ -120,11 +123,63 @@ class Filemanage
             string inJournal = Console.ReadLine();
 
             // detta är ett test
-            Personnel newjournal = new Personnel(name, inJournal);
+            Staff newjournal = new Staff(name, inJournal);
 
         }
     }
     
+    //Loadusers hämtar datan från textfilerna och laddar de innan programmet startar. sen kallas metoden i program.cs
+    public static void LoadUsers(string AdminFilepath, string PatientFilePath, string StaffFilepath, List<Admin> admins, List<Patient> patients, List<Staff> staff)
+    {
+        //laddar alla admins inlogg 
+        if (File.Exists(AdminFilepath))
+        {
+            string[] lines = File.ReadAllLines(AdminFilepath);
+
+            foreach (string line in lines)
+            {
+                if (line != "") //ignorera tomma rader 
+                {
+                    Admin admin = ReadUser.FromFileToStringAdmin(line); //hämtar metoden ReadUser som splittar alla strings 
+                    admins.Add(admin);
+                }
+            }
+
+        }
+
+        //laddar alla patienters inlogg 
+        if (File.Exists(PatientFilePath))
+        {
+            string[] lines = File.ReadAllLines(PatientFilePath);
+            foreach (string line in lines)
+            {
+                if (line != "") //ignorera tomma rader 
+                {
+                    Patient patient = ReadUser.FromFileToStringPatient(line); //hämtar metod från ReadUser
+                    patients.Add(patient);
+
+                }
+            }
+
+
+        }
+
+        //laddar alla personnel inlogg så de kan matcha när man loggar in 
+        if (File.Exists(StaffFilepath))
+        {
+            string[] lines = File.ReadAllLines(StaffFilepath);
+            foreach (string line in lines)
+            {
+                if (line != "") //ignorera tomma rader 
+                {
+                    Staff p = ReadUser.FromFileToStringStaff(line); //hämtar metod ReadUser
+                    staff.Add(p);
+                }
+
+            }
+
+        }
+    }
 
 }
 
