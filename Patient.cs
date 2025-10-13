@@ -5,10 +5,13 @@ class Patient : IUser
     public string Email;
     string _password;
 
-    public Patient(string email, string password)
+    public string Journal;
+
+    public Patient(string email, string password, string journal)
     {
         Email = email;
         _password = password;
+        Journal = journal;
     }
 
     public bool TryLogin(string username, string password)
@@ -29,4 +32,12 @@ class Patient : IUser
     {
         return $"{Email};{_password}";
     }
+
+
+    public string ToFileJournal(string journal)
+    {
+        return $";{Journal}";
+    }
+
+    
 }

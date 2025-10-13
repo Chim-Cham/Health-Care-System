@@ -1,4 +1,4 @@
-lina;patient
+lina;patient;
 david;patient
 gustav;patient
 samaad;patient
