@@ -5,11 +5,11 @@ namespace HCS;
 
 class Filemanage
 {
-    public static void EnsurePath(string AdminFilepath, string PatientFilePath, string PersonnelFilepath)
+    public static void EnsurePath(string AdminFilepath, string PatientFilePath, string StaffFilepath)
     {
         string directoryAdmin = Path.GetDirectoryName(AdminFilepath);
         string directoryPatient = Path.GetDirectoryName(PatientFilePath);
-        string directoryPersonnel = Path.GetDirectoryName(PersonnelFilepath);
+        string directoryStaff = Path.GetDirectoryName(StaffFilepath);
 
         // kontorllerar att filen Admin.txt finns
         if (!string.IsNullOrEmpty(directoryAdmin))
@@ -33,14 +33,14 @@ class Filemanage
             }
         }
 
-        // kontorllerar att filen Personal.txt finns
-        if (!string.IsNullOrEmpty(directoryPersonnel))
+        // kontorllerar att filen Staff.txt finns
+        if (!string.IsNullOrEmpty(directoryStaff))
         {
             //ifall filen inte finns så skapas den filen
-            if (!Directory.Exists(directoryPersonnel))
+            if (!Directory.Exists(directoryStaff))
             {
-                Directory.CreateDirectory(directoryPersonnel);
-                Console.WriteLine($"Created file: {directoryPersonnel}");
+                Directory.CreateDirectory(directoryStaff);
+                Console.WriteLine($"Created file: {directoryStaff}");
             }
         }
     }
@@ -65,10 +65,10 @@ class Filemanage
             return new Patient(parts[0], parts[1]);
         }
 
-        public static Personnel FromFileToStringPersonnel(string line)
+        public static Staff FromFileToStringStaff(string line)
         {
             string[] parts = line.Split(";");
-            return new Personnel(parts[0], parts[1]);
+            return new Staff(parts[0], parts[1]);
         }
     }
 

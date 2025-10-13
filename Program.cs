@@ -2,13 +2,13 @@
 
 string AdminFilepath = Path.Combine("Data", "Admin.txt");
 string PatientFilePath = Path.Combine("Data", "Patient.txt");
-string PersonnelFilepath = Path.Combine("Data", "Persnoal.txt");
+string StaffFilepath = Path.Combine("Data", "Staff.txt");
 
 IUser? active_user = null;
 bool running = true;
 
 //kallar metoden EnsurePath för alla 3 txt filer
-Filemanage.EnsurePath(AdminFilepath, PatientFilePath, PersonnelFilepath);
+Filemanage.EnsurePath(AdminFilepath, PatientFilePath, StaffFilepath);
 
 // skapar första menyn ifall active_user == false. 
 if (active_user == null)
