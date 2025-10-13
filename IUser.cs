@@ -11,7 +11,7 @@ interface IUser
 enum Role
 {
     None,
-    Personnel,
+    Staff,
     Patient,
     Admin,
 }
