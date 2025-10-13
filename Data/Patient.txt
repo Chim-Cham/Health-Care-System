@@ -6,3 +6,5 @@ imran;patient
 
 harris;password
 max;password
+havash;password
+havash;password

@@ -52,23 +52,23 @@ public class Filemanage
     {
         string line;
 
-        //Läser in från filen anändarnamn och lösenord - koppla denna till log in.
+        //Läser in från filen anändarnamn och lösenord och splitar så vi kan använda detta när vi ska ladda alla users. 
         public static Admin FromFileToStringAdmin(string line)
         {
-            string[] parts = line.Split(";");
-            return new Admin(parts[0], parts[1]);
+            string[] adminParts = line.Split(";");
+            return new Admin(adminParts[0], adminParts[1]);
         }
 
         public static Patient FromFileToStringPatient(string line)
         {
-            string[] parts = line.Split(";");
-            return new Patient(parts[0], parts[1]);
+            string[] patientParts = line.Split(";");
+            return new Patient(patientParts[0], patientParts[1]);
         }
 
         public static Personnel FromFileToStringPersonnel(string line)
         {
-            string[] parts = line.Split(";");
-            return new Personnel(parts[0], parts[1]);
+            string[] personnelParts = line.Split(";");
+            return new Personnel(personnelParts[0], personnelParts[1]);
         }
     }
 
@@ -106,10 +106,66 @@ public class Filemanage
             }
 
             // Bekräftar att användaren sparades
-            Console.WriteLine($"User '{email}' have been added!");
+            Console.WriteLine($"User '{email}' have been added!, press ENTER to go back to login");
             Console.ReadLine();
         }
     }
+
+    //Loadusers hämtar datan från textfilerna och laddar de innan programmet startar. sen kallas metoden i program.cs
+    public static void LoadUsers(string AdminFilepath, string PatientFilePath, string PersonnelFilepath, List<Admin> admins, List<Patient> patients, List<Personnel> personnel)
+    {
+        //laddar alla admins inlogg 
+        if (File.Exists(AdminFilepath))
+        {
+            string[] lines = File.ReadAllLines(AdminFilepath);
+
+            foreach (string line in lines)
+            {
+                if (line != "") //ignorera tomma rader 
+                {
+                    Admin admin = ReadUser.FromFileToStringAdmin(line); //hämtar metoden ReadUser som splittar alla strings 
+                    admins.Add(admin);
+                }
+            }
+
+        }
+
+        //laddar alla patienters inlogg 
+        if (File.Exists(PatientFilePath))
+        {
+            string[] lines = File.ReadAllLines(PatientFilePath);
+            foreach (string line in lines)
+            {
+                if (line != "") //ignorera tomma rader 
+                {
+                    Patient patient = ReadUser.FromFileToStringPatient(line); //hämtar metod från ReadUser
+                    patients.Add(patient);
+
+                }
+            }
+
+
+        }
+
+        //laddar alla personnel inlogg så de kan matcha när man loggar in 
+        if (File.Exists(PersonnelFilepath))
+        {
+            string[] lines = File.ReadAllLines(PersonnelFilepath);
+            foreach (string line in lines)
+            {
+                if (line != "") //ignorera tomma rader 
+                {
+                    Personnel p = ReadUser.FromFileToStringPersonnel(line); //hämtar metod ReadUser
+                    personnel.Add(p);
+                }
+
+            }
+
+        }
+    }
+
+
+
 
 
 

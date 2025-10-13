@@ -1,8 +1,11 @@
 ﻿using System.ComponentModel;
 using HCS;
 
-List<IUser> users = new();
+// List<IUser> users = new();
 List<Patient> patients = new();
+List<Admin> admins = new();
+List<Personnel> personnel = new();
+
 
 string AdminFilepath = Path.Combine("Data", "Admin.txt");
 string PatientFilePath = Path.Combine("Data", "Patient.txt");
@@ -16,12 +19,15 @@ bool running = true;
 //kallar metoden EnsurePath för alla 3 txt filer
 Filemanage.EnsurePath(AdminFilepath, PatientFilePath, PersonnelFilepath);
 
+Filemanage.LoadUsers(AdminFilepath, PatientFilePath, PersonnelFilepath, admins, patients, personnel);
+
 
 while (running)
 {
     if (active_user == null)
     {
         //meny valen! Välj med 1-3
+        try { Console.Clear(); } catch { }
         Console.WriteLine("Health Care System, choose one of the options (1-3)");
         Console.WriteLine("1. Log in");
         Console.WriteLine("2. Register as a patient");
@@ -50,7 +56,7 @@ while (running)
                     break;
                 }
             }
-            if (active_user == null)
+            if (active_user == null) //om inlogg inte funkar kommmer fel meddelande
             {
                 Console.WriteLine("No matching user, try again or create an account, press enter to go back");
                 Console.ReadLine();
@@ -61,24 +67,8 @@ while (running)
         //ifall create user väljs
         if (menu1 == "2")
         {
+            //kallar på metod i Filemanager, class Filemanage och metod heter add patient, man kan bara lägga till patienter här 
             Filemanage.AddPatient.AddUser(PatientFilePath);
-
-
-            // try { Console.Clear(); } catch { }
-            // Console.WriteLine("Enter your email");
-            // string newEmail = Console.ReadLine();
-
-            // try { Console.Clear(); } catch { }
-            // Console.WriteLine("Create password");
-            // string newPassword = Console.ReadLine();
-
-            // patients.Add(new Patient(newEmail, newPassword));
-
-            // try { Console.Clear(); } catch { }
-            // Console.WriteLine("Account successfully registerd, press enter to log in");
-            // Console.ReadLine();
-
-            //lägga till create
 
         }
 

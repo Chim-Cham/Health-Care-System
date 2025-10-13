@@ -1,6 +1,6 @@
 namespace HCS;
 
-class Admin : IUser
+public class Admin : IUser
 {
     public string Username;
     string _password;
@@ -18,11 +18,6 @@ class Admin : IUser
     public bool TryLogin(string username, string password)
     {
         return username == Username && password == _password;
-    }
-
-    public bool IsRole(Role role)
-    {
-        return Role.Admin == role;
     }
 
     public Role GetRole()
