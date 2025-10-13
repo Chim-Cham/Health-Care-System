@@ -1,7 +1,7 @@
 namespace HCS;
 
 // det har blivit ett felmeddelande här. IUser har som krav att varje användare ska ha tryLogin och Getrole 
-class Personnel : IUser
+public class Personnel : IUser
 {
     public string Username;
     string _password;
@@ -15,11 +15,6 @@ class Personnel : IUser
     public bool TryLogin(string username, string password)
     {
         return username == Username && password == _password;
-    }
-
-    public bool IsRole(Role role)
-    {
-        return Role.Personnel == role;
     }
 
     public Role GetRole()

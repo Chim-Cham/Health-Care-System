@@ -1,6 +1,6 @@
 namespace HCS;
 
-class Patient : IUser
+public class Patient : IUser
 {
     public string Email;
     string _password;
@@ -14,11 +14,6 @@ class Patient : IUser
     public bool TryLogin(string username, string password)
     {
         return username == Email && password == _password;
-    }
-
-    public bool IsRole(Role role)
-    {
-        return Role.Patient == role;
     }
 
     public Role GetRole()

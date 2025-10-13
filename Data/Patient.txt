@@ -3,3 +3,8 @@ david;patient
 gustav;patient
 samaad;patient
 imran;patient
+
+harris;password
+max;password
+havash;password
+havash;password
