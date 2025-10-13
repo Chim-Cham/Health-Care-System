@@ -12,8 +12,13 @@ class Staff : IUser
         _password = password;
     }
 
-    //saves the staff data
+    public bool TryLogin(string username, string password)
+    {
+        return username == Username && password == _password;
+    }
 
+
+    //saves the staff data
     public string ToFileString(string username, string password)
     {
         return $"{Username};{_password}";
