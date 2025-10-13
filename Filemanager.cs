@@ -3,7 +3,7 @@ using System.Security.Cryptography.X509Certificates;
 namespace HCS;
 
 
-class Filemanage
+public class Filemanage
 {
     public static void EnsurePath(string AdminFilepath, string PatientFilePath, string PersonnelFilepath)
     {
@@ -74,13 +74,13 @@ class Filemanage
 
 
     //skapar en class för att lägga till användare 
-    class Add
+    public class AddPatient
     {
 
 
 
 
-        //Här har jag gjort så att man lägger till en annändare som är admin men vet inte hur jag ska ta mig till väga härifrån
+        //Här har jag gjort så att man lägger till en användare som är admin men vet inte hur jag ska ta mig till väga härifrån
         public static void AddUser(string PatientFilePath)
         {
 
@@ -102,7 +102,7 @@ class Filemanage
             using (StreamWriter writer = new StreamWriter(PatientFilePath, append: true))
             {
                 // Hämtar metoden för att skriva in användaren i filen.
-                writer.WriteLine(newPatient.ToFileString(email,password));
+                writer.WriteLine(newPatient.ToFileString(email, password));
             }
 
             // Bekräftar att användaren sparades

@@ -1,4 +1,5 @@
-﻿using HCS;
+﻿using System.ComponentModel;
+using HCS;
 
 List<IUser> users = new();
 List<Patient> patients = new();
@@ -40,7 +41,8 @@ while (running)
             Console.Write("Password:");
             string password = Console.ReadLine();
 
-            foreach (IUser user in users)
+            try { Console.Clear(); } catch { }
+            foreach (Patient user in patients)
             {
                 if (user.TryLogin(username, password))
                 {
@@ -48,31 +50,33 @@ while (running)
                     break;
                 }
             }
-            // if (active_user == null)
-            // {
-            //     Console.WriteLine("No matching user, try again or create an account, press enter to go back");
-            //     Console.ReadLine();
-            // }
-            // break;
+            if (active_user == null)
+            {
+                Console.WriteLine("No matching user, try again or create an account, press enter to go back");
+                Console.ReadLine();
+            }
+
         }
 
         //ifall create user väljs
         if (menu1 == "2")
         {
+            Filemanage.AddPatient.AddUser(PatientFilePath);
 
-            try { Console.Clear(); } catch { }
-            Console.WriteLine("Enter your email");
-            string newEmail = Console.ReadLine();
 
-            try { Console.Clear(); } catch { }
-            Console.WriteLine("Create password");
-            string newPassword = Console.ReadLine();
+            // try { Console.Clear(); } catch { }
+            // Console.WriteLine("Enter your email");
+            // string newEmail = Console.ReadLine();
 
-            patients.Add(new Patient(newEmail, newPassword));
+            // try { Console.Clear(); } catch { }
+            // Console.WriteLine("Create password");
+            // string newPassword = Console.ReadLine();
 
-            try { Console.Clear(); } catch { }
-            Console.WriteLine("Account successfully registerd, press enter to log in");
-            Console.ReadLine();
+            // patients.Add(new Patient(newEmail, newPassword));
+
+            // try { Console.Clear(); } catch { }
+            // Console.WriteLine("Account successfully registerd, press enter to log in");
+            // Console.ReadLine();
 
             //lägga till create
 
