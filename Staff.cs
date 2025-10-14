@@ -67,18 +67,43 @@ public class Staff : IUser
         Console.ReadLine();
     }
 
-    public void WriteJournal(string JournalFilepath, Patient patientName)
+
+    // ifall denna är static så går det inte att hämta Username därför har jag den bara som void. 
+    public void WriteJournal(string JournalFilepath, List<Patient> patients)
     {
+
+        Console.WriteLine("Patient nameID: ");
+        string email = Console.ReadLine();
+
+        Patient patient = null;
+
+        foreach (Patient patient1 in patients)
+        {
+            if (patient1.Email == email)
+            {
+                patient = patient1;
+                break;
+            }
+        }
+        if (patient == null)
+        {
+            Console.WriteLine("No Patient found, Try again");
+            Console.WriteLine("");
+            Console.WriteLine("Press enter to continue...");
+            Console.ReadLine();
+            return;
+        }
+
         Console.WriteLine("Write in journal: ");
         string writing = Console.ReadLine();
 
         using (StreamWriter writer = new StreamWriter(JournalFilepath, append: true))
         {
-            writer.WriteLine($"{Username};{patientName.Email};{writing}");
+            writer.WriteLine($"{Username};{patient.Email};{writing}");
         }
     }
 
-    public void Menu()
+    public void Menu(List<Patient> patient, string JournalFilepath)
     {
         bool runningPersonnel = true;
 
@@ -104,7 +129,8 @@ public class Staff : IUser
                     break;
 
                 case "3":
-                    WriteJournal(Patient, JournalFilepath);
+                // ifall menyn är static så går inte denna metoden att hämtas
+                    WriteJournal(JournalFilepath, patient);
                     break;
 
                 case "4":
