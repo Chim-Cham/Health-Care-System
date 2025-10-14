@@ -30,7 +30,7 @@ public class Staff : IUser
     }
 
 
-    public static string ToJournalFile(Staff staffName, Patient name,string journal)
+    public static string ToJournalFile(Staff staffName, Patient name, string journal)
     {
         return $"{staffName};{name};{journal}";
     }
@@ -67,22 +67,22 @@ public class Staff : IUser
         Console.ReadLine();
     }
 
-    public static void WriteJournal(string JournalFilepath, Staff active_user, Patient Pname, string Journal)
+    public void WriteJournal(string JournalFilepath, Patient patientName)
     {
-        Console.WriteLine("Patient name: ");
-        string Paname = Console.ReadLine();
-
-        Staff activeuser = active_user;
-
         Console.WriteLine("Write in journal: ");
         string writing = Console.ReadLine();
 
-        Staff.ToJournalFile(activeuser, Pname, Journal);
+        using (StreamWriter writer = new StreamWriter(JournalFilepath, append: true))
+        {
+            writer.WriteLine($"{Username};{patientName.Email};{writing}");
+        }
     }
 
     public void Menu()
     {
         bool runningPersonnel = true;
+
+
 
         while (runningPersonnel)
         {
@@ -90,9 +90,10 @@ public class Staff : IUser
             Console.WriteLine("-----Healtcare-----");
             Console.WriteLine("1. Schedual");
             Console.WriteLine("2. Journal");
-            Console.WriteLine("3. bocking");
-            Console.WriteLine("4. Logout");
-            Console.WriteLine("5. Quit");
+            Console.WriteLine("3. Journal writing");
+            Console.WriteLine("4. bocking");
+            Console.WriteLine("5. Logout");
+            Console.WriteLine("6. Quit");
 
             switch (Console.ReadLine())
             {
@@ -103,12 +104,16 @@ public class Staff : IUser
                     break;
 
                 case "3":
+                    WriteJournal(Patient, JournalFilepath);
                     break;
 
                 case "4":
                     break;
 
                 case "5":
+                    break;
+
+                case "6":
                     break;
             }
         }
