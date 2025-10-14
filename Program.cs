@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 ﻿using HCS;
+=======
+﻿using System.Collections;
+using System.ComponentModel;
+using HCS;
+>>>>>>> main
 
 // List<IUser> users = new();
 List<Patient> patients = new();
@@ -10,6 +16,7 @@ string AdminFilepath = Path.Combine("Data", "Admin.txt");
 string PatientFilePath = Path.Combine("Data", "Patient.txt");
 string StaffFilepath = Path.Combine("Data", "Staff.txt");
 string JournalFilepath = Path.Combine("Data", "Journal.txt");
+
 
 
 
@@ -106,8 +113,22 @@ while (running)
     }
     else //här är resten av programmet när user är inloggad
     {
-        Console.WriteLine("Hej nu är du i main menu ");
-        Console.ReadLine();
+        try { Console.Clear(); } catch { }
+
+        switch(active_user.GetRole())
+        {
+            case Role.Admin:
+                Admin.Menu();
+                break;
+
+            case Role.Staff:
+                Staff.Menu();
+                break;
+
+            case Role.Patient:
+                Patient.Menu();
+                break;
+        }
     }
 
 

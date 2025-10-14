@@ -114,11 +114,11 @@ public class Staff : IUser
             Console.Clear();
             Console.WriteLine("-----Healtcare-----");
             Console.WriteLine("1. Schedual");
-            Console.WriteLine("2. Journal");
-            Console.WriteLine("3. Journal writing");
-            Console.WriteLine("4. bocking");
-            Console.WriteLine("5. Logout");
-            Console.WriteLine("6. Quit");
+            Console.WriteLine("2. View Journal");
+            Console.WriteLine("3,5 Write Journal");
+            Console.WriteLine("3. booking");
+            Console.WriteLine("4. Logout");
+            Console.WriteLine("5. Quit");
 
             switch (Console.ReadLine())
             {
@@ -126,6 +126,7 @@ public class Staff : IUser
                     break;
 
                 case "2":
+
                     break;
 
                 case "3":
