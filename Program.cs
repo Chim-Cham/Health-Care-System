@@ -10,6 +10,7 @@ List<Staff> staff = new();
 string AdminFilepath = Path.Combine("Data", "Admin.txt");
 string PatientFilePath = Path.Combine("Data", "Patient.txt");
 string StaffFilepath = Path.Combine("Data", "Staff.txt");
+string JournalFilepath = Path.Combine("Data", "Journal.txt");
 
 
 

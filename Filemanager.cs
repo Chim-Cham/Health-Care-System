@@ -11,7 +11,6 @@ public class Filemanage
         string directoryStaff = Path.GetDirectoryName(StaffFilepath);
         string directoryJournal = Path.GetDirectoryName(JournalFilepath);
 
-        
         // kontorllerar att filen Admin.txt finns
         if (!string.IsNullOrEmpty(directoryAdmin))
         {
@@ -118,32 +117,6 @@ public class Filemanage
 
             // Bekräftar att användaren sparades
             Console.WriteLine($"User '{email}' have been added!, press ENTER to go back to login");
-            Console.ReadLine();
-        }
-    }
-
-
-// detta är nytt för journal 
-    class Journal
-    {
-        public static void Journalwriter(string JournalFilePath)
-        {
-            try { Console.Clear(); } catch { }
-            Console.WriteLine("Patient name: ");
-            string name = Console.ReadLine();
-
-            try { Console.Clear(); } catch { }
-            Console.WriteLine("Journal: ");
-            string inJournal = Console.ReadLine();
-
-            // detta är ett test
-            Staff newjournal = new Staff(name, inJournal);
-
-            using (StreamWriter writer = new StreamWriter(JournalFilePath, append: true))
-            {
-                writer.WriteLine(newjournal.ToJournalFile(name, inJournal));
-            }
-            Console.WriteLine($"Journal for patient: {name} have been added");
             Console.ReadLine();
         }
     }
