@@ -109,18 +109,43 @@ while (running)
     {
         try { Console.Clear(); } catch { }
 
-        switch(active_user.GetRole())
+        switch (active_user.GetRole())
         {
             case Role.Admin:
-                ((Admin)active_user).Menu(StaffFilepath);
+                bool adminLoggedOut = ((Admin)active_user).Menu(StaffFilepath);
+                if (adminLoggedOut)
+                {
+                    active_user = null; // loggar ut admin och går till login
+                }
+                else
+                {
+                    running = false;
+                }
+
                 break;
 
             case Role.Staff:
-                ((Staff)active_user).Menu(patients, JournalFilepath);
+                bool staffLoggedOut = ((Staff)active_user).Menu(patients, JournalFilepath);
+                if (staffLoggedOut)
+                {
+                    active_user = null;
+                }
+                else
+                {
+                    running = false;
+                }
                 break;
 
             case Role.Patient:
-                Patient.Menu();
+                bool patientLoggedOut = Patient.Menu();
+                if (patientLoggedOut)
+                {
+                    active_user = null;
+                }
+                else
+                {
+                    running = false;
+                }
                 break;
         }
     }
