@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-﻿using HCS;
-=======
-﻿using System.Collections;
-using System.ComponentModel;
-using HCS;
->>>>>>> main
+﻿﻿using HCS;
 
 // List<IUser> users = new();
 List<Patient> patients = new();
@@ -122,7 +116,7 @@ while (running)
                 break;
 
             case Role.Staff:
-                Staff.Menu();
+                ((Staff)active_user).Menu(patients, JournalFilepath);
                 break;
 
             case Role.Patient:
