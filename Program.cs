@@ -1,4 +1,4 @@
-﻿﻿using HCS;
+﻿using HCS;
 
 // List<IUser> users = new();
 List<Patient> patients = new();
@@ -112,7 +112,7 @@ while (running)
         switch(active_user.GetRole())
         {
             case Role.Admin:
-                Admin.Menu();
+                ((Admin)active_user).Menu(StaffFilepath);
                 break;
 
             case Role.Staff:

@@ -35,38 +35,6 @@ public class Staff : IUser
         return $"{staffName};{name};{journal}";
     }
 
-    public static void addStaff(string StaffFilepath)
-
-    {
-
-        // Ber användaren skriva in email 
-
-        Console.WriteLine("Create Staff Username: ");
-        string username = Console.ReadLine();
-
-
-        // Ber användaren skriva in lösenord 
-        Console.WriteLine("Create Staff Password");
-        string password = Console.ReadLine();
-
-
-        // Skapar ett nytt staff member med den inmatade datan 
-        Staff newStaff = new Staff(username, password);
-
-
-        // Öppnar filen för att lägga till text i slutet 
-
-        using (StreamWriter writer = new StreamWriter(StaffFilepath, append: true))
-        {
-            // Hämtar metoden för att skriva in användaren i filen. 
-            writer.WriteLine(newStaff.ToFileString(username, password));
-        }
-
-        // Bekräftar att användaren sparades 
-        Console.WriteLine($"User '{username}' have been added!");
-        Console.ReadLine();
-    }
-
 
     // ifall denna är static så går det inte att hämta Username därför har jag den bara som void. 
     public void WriteJournal(string JournalFilepath, List<Patient> patients)
