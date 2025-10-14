@@ -25,12 +25,13 @@ public class Patient : IUser
         return $"{Email};{_password}";
     }
 
-    
-    public static void Menu()
+
+    public static bool Menu()
     {
         bool runningPatient = true;
+        bool logout = false;
 
-        while(runningPatient)
+        while (runningPatient)
         {
             Console.Clear();
             Console.WriteLine("-----Healtcare-----");
@@ -40,7 +41,7 @@ public class Patient : IUser
             Console.WriteLine("4. Log out");
             Console.WriteLine("5. Quit");
 
-            switch(Console.ReadLine())
+            switch (Console.ReadLine())
             {
                 case "1":
                     break;
@@ -52,12 +53,18 @@ public class Patient : IUser
                     break;
 
                 case "4":
+                    //loggar ut 
+                    logout = true;
+                    runningPatient = false;
                     break;
 
                 case "5":
+                    //avslutar programmet
+                    runningPatient = false;
                     break;
             }
         }
+        return logout;
     }
 
 }

@@ -1,4 +1,4 @@
-﻿﻿using HCS;
+﻿using HCS;
 
 // List<IUser> users = new();
 List<Patient> patients = new();
@@ -112,8 +112,8 @@ while (running)
         switch (active_user.GetRole())
         {
             case Role.Admin:
-                bool loggedOut = Admin.Menu();
-                if (loggedOut)
+                bool adminLoggedOut = Admin.Menu();
+                if (adminLoggedOut)
                 {
                     active_user = null; // loggar ut admin och går till login
                 }
@@ -124,11 +124,27 @@ while (running)
                 break;
 
             case Role.Staff:
-                ((Staff)active_user).Menu(patients, JournalFilepath);
+                bool staffLoggedOut = ((Staff)active_user).Menu(patients, JournalFilepath);
+                if (staffLoggedOut)
+                {
+                    active_user = null;
+                }
+                else
+                {
+                    running = false;
+                }
                 break;
 
             case Role.Patient:
-                Patient.Menu();
+                bool patientLoggedOut = Patient.Menu();
+                if (patientLoggedOut)
+                {
+                    active_user = null;
+                }
+                else
+                {
+                    running = false;
+                }
                 break;
         }
     }

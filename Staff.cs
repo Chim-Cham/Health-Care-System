@@ -103,22 +103,22 @@ public class Staff : IUser
         }
     }
 
-    public void Menu(List<Patient> patient, string JournalFilepath)
+    public bool Menu(List<Patient> patient, string JournalFilepath)
     {
-        bool runningPersonnel = true;
+        bool runningStaff = true;
+        bool logout = false;
 
 
-
-        while (runningPersonnel)
+        while (runningStaff)
         {
             Console.Clear();
             Console.WriteLine("-----Healtcare-----");
             Console.WriteLine("1. Schedual");
             Console.WriteLine("2. View Journal");
-            Console.WriteLine("3,5 Write Journal");
-            Console.WriteLine("3. booking");
-            Console.WriteLine("4. Logout");
-            Console.WriteLine("5. Quit");
+            Console.WriteLine("3 Write Journal");
+            Console.WriteLine("4. booking");
+            Console.WriteLine("5. Logout");
+            Console.WriteLine("6. Quit");
 
             switch (Console.ReadLine())
             {
@@ -130,7 +130,7 @@ public class Staff : IUser
                     break;
 
                 case "3":
-                // ifall menyn är static så går inte denna metoden att hämtas
+                    // ifall menyn är static så går inte denna metoden att hämtas
                     WriteJournal(JournalFilepath, patient);
                     break;
 
@@ -138,12 +138,18 @@ public class Staff : IUser
                     break;
 
                 case "5":
+                    //logga ut 
+                    logout = true;
+                    runningStaff = false;
                     break;
 
                 case "6":
+                    //avslutar programmet 
+                    runningStaff = false;
                     break;
             }
         }
+        return logout;
     }
 
 }

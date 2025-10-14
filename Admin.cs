@@ -28,10 +28,12 @@ public class Admin : IUser
     }
 
     // denna kan man override för en annan meny för andra användare. 
-    public static void Menu()
+    //kan va att man behöver ändra till ej static när andra punkter körs om man ska hämta variablar från program.cs
+    public static bool Menu()
     {
         bool logout = false;
         bool runningAdmin = true;
+
         while (runningAdmin)
         {
             Console.Clear();
@@ -74,16 +76,19 @@ public class Admin : IUser
                     break;
 
                 case "7":
+                    //logga ut 
                     logout = true;
                     runningAdmin = false;
+
                     break;
 
                 case "8":
+                    //avsluta programmet 
                     runningAdmin = false;
                     break;
             }
         }
-
+        return logout;
     }
 
 }
