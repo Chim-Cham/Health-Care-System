@@ -112,7 +112,7 @@ while (running)
         switch (active_user.GetRole())
         {
             case Role.Admin:
-                bool adminLoggedOut = Admin.Menu();
+                bool adminLoggedOut = ((Admin)active_user).Menu(StaffFilepath);
                 if (adminLoggedOut)
                 {
                     active_user = null; // loggar ut admin och går till login
@@ -121,6 +121,7 @@ while (running)
                 {
                     running = false;
                 }
+
                 break;
 
             case Role.Staff:

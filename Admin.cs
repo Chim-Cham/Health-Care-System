@@ -27,9 +27,44 @@ public class Admin : IUser
         return Role.Admin;
     }
 
+
+    public void addStaff(string StaffFilepath)
+
+    {
+        // Ber användaren skriva in email 
+
+        Console.WriteLine("Create Staff Username: ");
+        string username = Console.ReadLine();
+
+
+        // Ber användaren skriva in lösenord 
+        Console.WriteLine("Create Staff Password");
+        string password = Console.ReadLine();
+
+
+        // Skapar ett nytt staff member med den inmatade datan 
+        Staff newStaff = new Staff(username, password);
+
+
+        // Öppnar filen för att lägga till text i slutet 
+
+        using (StreamWriter writer = new StreamWriter(StaffFilepath, append: true))
+        {
+            // Hämtar metoden för att skriva in användaren i filen. 
+            writer.WriteLine(newStaff.ToFileString(username, password));
+        }
+
+        // Bekräftar att användaren sparades 
+        Console.WriteLine($"User '{username}' have been added!");
+        Console.ReadLine();
+    }
+
+
+
+
     // denna kan man override för en annan meny för andra användare. 
     //kan va att man behöver ändra till ej static när andra punkter körs om man ska hämta variablar från program.cs
-    public static bool Menu()
+    public bool Menu(string StaffFilepath)
     {
         bool logout = false;
         bool runningAdmin = true;
@@ -70,6 +105,7 @@ public class Admin : IUser
                     break;
 
                 case "5":
+                    addStaff(StaffFilepath);
                     break;
 
                 case "6":
