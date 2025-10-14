@@ -30,9 +30,9 @@ public class Staff : IUser
     }
 
 
-    public string ToJournalFile(string name,string journal)
+    public static string ToJournalFile(Staff staffName, Patient name,string journal)
     {
-        return $"{name};{journal}";
+        return $"{staffName};{name};{journal}";
     }
 
     public static void addStaff(string StaffFilepath)
@@ -67,7 +67,20 @@ public class Staff : IUser
         Console.ReadLine();
     }
 
-    public static void Menu()
+    public static void WriteJournal(string JournalFilepath, Staff active_user, Patient Pname, string Journal)
+    {
+        Console.WriteLine("Patient name: ");
+        string Paname = Console.ReadLine();
+
+        Staff activeuser = active_user;
+
+        Console.WriteLine("Write in journal: ");
+        string writing = Console.ReadLine();
+
+        Staff.ToJournalFile(activeuser, Pname, Journal);
+    }
+
+    public void Menu()
     {
         bool runningPersonnel = true;
 

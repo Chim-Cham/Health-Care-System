@@ -4,11 +4,12 @@ namespace HCS;
 
 public class Filemanage
 {
-    public static void EnsurePath(string AdminFilepath, string PatientFilePath, string StaffFilepath)
+    public static void EnsurePath(string AdminFilepath, string PatientFilePath, string StaffFilepath, string JournalFilepath)
     {
         string directoryAdmin = Path.GetDirectoryName(AdminFilepath);
         string directoryPatient = Path.GetDirectoryName(PatientFilePath);
         string directoryStaff = Path.GetDirectoryName(StaffFilepath);
+        string directoryJournal = Path.GetDirectoryName(JournalFilepath);
 
         // kontorllerar att filen Admin.txt finns
         if (!string.IsNullOrEmpty(directoryAdmin))
@@ -40,6 +41,16 @@ public class Filemanage
             {
                 Directory.CreateDirectory(directoryStaff);
                 Console.WriteLine($"Created file: {directoryStaff}");
+            }
+        }
+
+        if (!string.IsNullOrEmpty(directoryJournal))
+        {
+            //ifall filen inte finns så skapas den filen
+            if (!Directory.Exists(directoryJournal))
+            {
+                Directory.CreateDirectory(directoryJournal);
+                Console.WriteLine($"Created file: {directoryJournal}");
             }
         }
     }
@@ -109,25 +120,7 @@ public class Filemanage
             Console.ReadLine();
         }
     }
-
-    class Journal
-    {
-        public static void Journalwriter()
-        {
-            try { Console.Clear(); } catch{ }
-            Console.WriteLine("Patient name: ");
-            string name = Console.ReadLine();
-
-            try { Console.Clear(); } catch { }
-            Console.WriteLine("Journal: ");
-            string inJournal = Console.ReadLine();
-
-            // detta är ett test
-            Staff newjournal = new Staff(name, inJournal);
-
-        }
-    }
-
+    
     //Loadusers hämtar datan från textfilerna och laddar de innan programmet startar. sen kallas metoden i program.cs
     public static void LoadUsers(string AdminFilepath, string PatientFilePath, string StaffFilepath, List<Admin> admins, List<Patient> patients, List<Staff> staff)
     {
