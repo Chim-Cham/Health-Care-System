@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.ComponentModel;
-using HCS;
+﻿﻿using HCS;
 
 // List<IUser> users = new();
 List<Patient> patients = new();
@@ -20,7 +18,7 @@ IUser? active_user = null;
 bool running = true;
 
 //kallar metoden EnsurePath för alla 3 txt filer
-Filemanage.EnsurePath(AdminFilepath, PatientFilePath, StaffFilepath);
+Filemanage.EnsurePath(AdminFilepath, PatientFilePath, StaffFilepath, JournalFilepath);
 
 Filemanage.LoadUsers(AdminFilepath, PatientFilePath, StaffFilepath, admins, patients, staff);
 
@@ -118,7 +116,7 @@ while (running)
                 break;
 
             case Role.Staff:
-                Staff.Menu();
+                ((Staff)active_user).Menu(patients, JournalFilepath);
                 break;
 
             case Role.Patient:
