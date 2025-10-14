@@ -111,10 +111,18 @@ while (running)
     {
         try { Console.Clear(); } catch { }
 
-        switch(active_user.GetRole())
+        switch (active_user.GetRole())
         {
             case Role.Admin:
-                Admin.Menu();
+                bool loggedOut = Admin.Menu();
+                if (loggedOut)
+                {
+                    active_user = null; // loggar ut admin och går till login
+                }
+                else
+                {
+                    running = false;
+                }
                 break;
 
             case Role.Staff:
