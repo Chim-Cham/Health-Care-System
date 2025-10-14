@@ -26,7 +26,7 @@ public class Patient : IUser
     }
 
     
-    public void Menu()
+    public static void Menu()
     {
         bool runningPatient = true;
 
@@ -36,7 +36,7 @@ public class Patient : IUser
             Console.WriteLine("-----Healtcare-----");
             Console.WriteLine("1. Scheduale");
             Console.WriteLine("2. Journal");
-            Console.WriteLine("3. Bocking");
+            Console.WriteLine("3. Booking");
             Console.WriteLine("4. Log out");
             Console.WriteLine("5. Quit");
 

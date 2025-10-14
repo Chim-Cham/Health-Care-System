@@ -28,7 +28,7 @@ public class Admin : IUser
     }
 
     // denna kan man override för en annan meny för andra användare. 
-    public void Menu()
+    public static void Menu()
     {
         bool runningAdmin = true;
         while (runningAdmin)
