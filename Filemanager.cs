@@ -1,3 +1,5 @@
+using System.Reflection.Metadata;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 
 namespace HCS;
@@ -184,13 +186,16 @@ public class Filemanage
         }
     }
 
+    // Method for fetching journal entries relating to the given user. Patients can only acces their own journal while doctors can access all available journals.
     public static void fetchJournal(string user, string JournalFilepath)
     {
+        // Goes through "Journal.txt" and find the patient name matching the given username. information is saved in the format of <doctor>;<patient>;<notes>
         string[] readJournal = File.ReadAllLines(JournalFilepath);
         foreach (string line in readJournal)
         {
             if (line != "")
             {
+                // The read lines get's split into parts at every given ";" in the string and then used to indentify the patient matching the journal
                 string[] lineArray = line.Split(";");
                 if (lineArray[1] == user)
                 {
@@ -212,7 +217,30 @@ public class Filemanage
                 string[] locationParts = line.Split(";");
             }
         }
-
+    }
+    public static void ReqBooking(List<Staff> staff, string user, string BookingFilepath)
+    {
+        int i = 1;
+        foreach (Staff staffer in staff)
+        {
+            System.Console.WriteLine($"{i}. {staffer.Username}");
+            i++;
+        }
+        System.Console.Write("What doctor do you wanna meet?: ");
+        string doctor = Console.ReadLine();
+        System.Console.Write("What time would you like to meet?(8-16): ");
+        string time = Console.ReadLine();
+        System.Console.Write("What month would you like to meet?(Feb-Nov): ");
+        string month = Console.ReadLine();
+        System.Console.Write("What day?(1-28): ");
+        string day = Console.ReadLine();
+        int.TryParse(time, out int timer);
+        using (StreamWriter writer = new StreamWriter(BookingFilepath, append: true))
+        {
+            writer.WriteLine($"{doctor};{user};{timer}:00;{timer + 1}:00;{month};{day};Pending");
+        }
+        System.Console.WriteLine("Appointment Requested! Press Enter to continue.");
+        Console.ReadLine();
     }
 
 }
