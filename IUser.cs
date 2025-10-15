@@ -2,7 +2,7 @@ using System.ComponentModel.Design;
 
 namespace HCS;
 
-interface IUser
+public interface IUser
 {
     public bool TryLogin(string username, string password);
     public Role GetRole();
