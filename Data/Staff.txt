@@ -3,5 +3,5 @@ david;staff
 gustav;staff
 samaad;staff
 imran;staff
-lasse;staf
+lasse;staff
 karin;staff

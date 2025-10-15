@@ -120,7 +120,7 @@ public class Filemanage
             Console.ReadLine();
         }
     }
-    
+
     //Loadusers hämtar datan från textfilerna och laddar de innan programmet startar. sen kallas metoden i program.cs
     public static void LoadUsers(string AdminFilepath, string PatientFilePath, string StaffFilepath, List<Admin> admins, List<Patient> patients, List<Staff> staff)
     {
@@ -171,6 +171,24 @@ public class Filemanage
 
             }
 
+        }
+    }
+
+    public static void fetchJournal(string user, string JournalFilepath)
+    {
+        string[] readJournal = File.ReadAllLines(JournalFilepath);
+        foreach (string line in readJournal)
+        {
+            if (line != "")
+            {
+                string[] lineArray = line.Split(";");
+                if (lineArray[1] == user)
+                {
+                    System.Console.WriteLine($"Doctor: {lineArray[0]}");
+                    System.Console.WriteLine($"Patient: {lineArray[1]}");
+                    System.Console.WriteLine($"Notes: {lineArray[2]}");
+                }
+            }
         }
     }
 

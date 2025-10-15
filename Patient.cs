@@ -26,7 +26,7 @@ public class Patient : IUser
     }
 
 
-    public static bool Menu()
+    public bool Menu(string JournalFilepath)
     {
         bool runningPatient = true;
         bool logout = false;
@@ -47,6 +47,8 @@ public class Patient : IUser
                     break;
 
                 case "2":
+                    Filemanage.fetchJournal(Email, JournalFilepath);
+                    Console.ReadLine();
                     break;
 
                 case "3":
