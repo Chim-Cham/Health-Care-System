@@ -4,7 +4,7 @@ public class Patient : IUser
 {
     public string Email;
     string _password;
-    Status status = Status.Pending;
+    public Status status = Status.Pending;
 
     public Patient(string email, string password)
     {

@@ -84,7 +84,7 @@ public class Admin : IUser
 
         
 
-        List<string> lines = new List<string>();
+        //List<string> lines = new List<string>();
         Status newStatus;
         using (StreamReader reader = new StreamReader(PatientFilePath))
         {
@@ -96,37 +96,40 @@ public class Admin : IUser
                 //lopar igenom dem igen och ger selected_patient värdet för patienten.
                 foreach (Patient patient in patients)
                 {
-                    if (ChosingRegister == patient.Email )
+                    string[] parts = line.Split(";");
+                    if (ChosingRegister == parts[0])
                     {
                         selected_patient = patient;
                         break;
                     }
                 }
-                string[] parts = line.Split(";");
+                
 
-                lines.Add(line);
+                //lines.Add(line);
             }
         }
         
         
         // här får man välja accept eller decline en registrering.
-            try { Console.Clear(); } catch { }
-            Console.WriteLine("Accept or Decline: " + selected_patient.Email);
-            Console.WriteLine("Type A or D: ");
-            string AorD = Console.ReadLine();
+        try { Console.Clear(); } catch { }
+        Console.WriteLine("Accept or Decline: " + selected_patient.Email);
+        Console.WriteLine("Type A or D: ");
+        string AorD = Console.ReadLine();
 
-            if (AorD == "a" || AorD == "A")
-            {
-                // ändra status till Accepted.
-                newStatus = Status.Accept;
+        if (AorD == "a" || AorD == "A")
+        {
+            // ändra status till Accepted.
+            newStatus = Status.Accept;
+            selected_patient.status = newStatus;
 
-            }
+        }
 
-            else if (AorD == "d" || AorD == "D")
-            {
-                // ändra status till denied
-                newStatus = Status.Denied;
-            }
+        else if (AorD == "d" || AorD == "D")
+        {
+            // ändra status till denied
+            newStatus = Status.Denied;
+            selected_patient.status = newStatus;
+        }
         // ifall den sökta patienten inte finns så kommer detta meddelandet. 
         if (selected_patient == null)
         {
@@ -141,7 +144,8 @@ public class Admin : IUser
         {
             foreach (string newLine in lines)
             {
-                writer.WriteLine(patients);
+                // todo skriv in hela linen inte listan
+                writer.WriteLine(newLine);
             }
         }
     }
