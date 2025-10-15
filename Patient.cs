@@ -26,7 +26,7 @@ public class Patient : IUser
     }
 
 
-    public bool Menu(string JournalFilepath)
+    public bool Menu(List<Staff> doctors,string JournalFilepath, string BookingFilepath)
     {
         bool runningPatient = true;
         bool logout = false;
@@ -52,6 +52,7 @@ public class Patient : IUser
                     break;
 
                 case "3":
+                    Filemanage.ReqBooking(doctors, Email, BookingFilepath);
                     break;
 
                 case "4":
