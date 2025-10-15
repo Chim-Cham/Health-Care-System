@@ -61,12 +61,58 @@ public class Admin : IUser
         Console.ReadLine();
     }
 
+    public void addLocation(string LocationFilepath)
+    {
+        try { Console.Clear(); } catch { }
+        Console.WriteLine("Write in which region: blekinge, halland, skåne, kronoberg?");
+        string choosenRegion = Console.ReadLine();
+        AllRegions selectedRegion = AllRegions.none;
+
+        if (choosenRegion == "blekinge")
+        {
+            selectedRegion = AllRegions.Blekinge;
+        }
+
+        else if (choosenRegion == "halland")
+        {
+            selectedRegion = AllRegions.Halland;
+        }
+
+        else if (choosenRegion == "skåne")
+        {
+            selectedRegion = AllRegions.Skåne;
+        }
+
+        else if (choosenRegion == "kronoberg")
+        {
+            selectedRegion = AllRegions.Kronoberg;
+        }
+
+        else if (choosenRegion == null)
+        {
+            Console.WriteLine("Region was not found, press Enter to go back");
+            Console.ReadLine();
+        }
+
+        Console.WriteLine("Write the name of the new reception");
+        string newReception = Console.ReadLine();
+
+        Location newLocation = new Location(newReception, selectedRegion);
+        Console.WriteLine($"New reception: {newReception} was added in Region {selectedRegion}");
+        Console.WriteLine("Press ENTER to go back to menu");
+        Console.ReadLine();
+        using (StreamWriter writer = new StreamWriter(LocationFilepath, append: true))
+        {
+            writer.WriteLine(newLocation.ToFileString(newReception, selectedRegion));
+        }
+    }
+
 
 
 
     // denna kan man override för en annan meny för andra användare. 
     //kan va att man behöver ändra till ej static när andra punkter körs om man ska hämta variablar från program.cs
-    public bool Menu(string StaffFilepath)
+    public bool Menu(string StaffFilepath, string LocationFilepath)
     {
         bool logout = false;
         bool runningAdmin = true;
@@ -101,57 +147,8 @@ public class Admin : IUser
                     break;
 
                 case "3":
-                    //add locations;
-                    try { Console.Clear(); } catch { }
-                    Console.WriteLine("Write in which region: blekinge, halland, skåne, kronoberg?");
-                    string choosenRegion = Console.ReadLine();
-                    AllRegions selectedRegion = AllRegions.none;
-                    switch (choosenRegion)
-                    {
-                        case "blekinge":
-                            selectedRegion = AllRegions.Blekinge;
-                            Console.WriteLine("Write the name of the new reception");
-                            string newReceptionBlekinge = Console.ReadLine();
-
-                            Location newlocationBlekinge = new Location(newReceptionBlekinge, AllRegions.Blekinge);
-                            Console.WriteLine($"New reception: {newReceptionBlekinge} was added in Region {AllRegions.Blekinge}");
-                            Console.WriteLine("Press ENTER to go back to menu");
-                            Console.ReadLine();
-                            break;
-
-                        case "halland":
-                            selectedRegion = AllRegions.Halland;
-                            Console.WriteLine("Write the name of the new reception");
-                            string newReceptionHalland = Console.ReadLine();
-
-                            Location newlocationHalland = new Location(newReceptionHalland, AllRegions.Halland);
-                            Console.WriteLine($"New reception: {newReceptionHalland} was added in Region {AllRegions.Halland}");
-                            Console.WriteLine("Press ENTER to go back to menu");
-                            Console.ReadLine();
-                            break;
-
-                        case "skåne":
-                            selectedRegion = AllRegions.Skåne;
-
-                            Console.WriteLine("Write the name of the new reception");
-                            string newReceptionSkåne = Console.ReadLine();
-                            Location newlocationSkåne = new Location(newReceptionSkåne, AllRegions.Skåne);
-                            Console.WriteLine($"New reception: {newReceptionSkåne} was added in Region {AllRegions.Skåne}");
-                            Console.WriteLine("Press ENTER to go back to menu");
-                            Console.ReadLine();
-                            break;
-
-                        case "kronoberg":
-                            selectedRegion = AllRegions.Kronoberg;
-                            Console.WriteLine("Write the name of the new reception");
-                            string newReceptionKronoberg = Console.ReadLine();
-
-                            Location newlocationKronoberg = new Location(newReceptionKronoberg, AllRegions.Skåne);
-                            Console.WriteLine($"New reception: {newReceptionKronoberg} was added in Region {AllRegions.Kronoberg}");
-                            Console.WriteLine("Press ENTER to go back to menu");
-                            Console.ReadLine();
-                            break;
-                    }
+                    //add locations
+                    addLocation(LocationFilepath);
                     break;
 
                 case "4":

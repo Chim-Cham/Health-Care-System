@@ -36,4 +36,9 @@ public class Location
         Reception = reception;
         Region = region;
     }
+
+    public string ToFileString(string reception, AllRegions region)
+    {
+        return $"{Reception}; {Region}";
+    }
 }
