@@ -137,7 +137,7 @@ while (running)
                 break;
 
             case Role.Patient:
-                bool patientLoggedOut = Patient.Menu();
+                bool patientLoggedOut = ((Patient)active_user).Menu(JournalFilepath);
                 if (patientLoggedOut)
                 {
                     active_user = null;
