@@ -8,3 +8,4 @@ harris;password
 max;password
 havash;password
 manuel;patient;Pending
+sofia;patient;Pending

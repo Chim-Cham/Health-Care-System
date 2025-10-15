@@ -82,25 +82,38 @@ public class Admin : IUser
         // skapar variablen för att gämföra vem användaren söker 
         Patient? selected_patient = null;
 
-        //lopar igenom dem igen och ger selected_patient värdet för patienten.
-        foreach (Patient patient in patients)
+        
+
+        List<string> lines = new List<string>();
+        Status newStatus;
+        using (StreamReader reader = new StreamReader(PatientFilePath))
         {
-            if (selected_patient == patient)
+            string line;
+
+            while ((line = reader.ReadLine()) != null)
             {
-                selected_patient = patient;
-                break;
+
+                //lopar igenom dem igen och ger selected_patient värdet för patienten.
+                foreach (Patient patient in patients)
+                {
+                    if (ChosingRegister == patient.Email )
+                    {
+                        selected_patient = patient;
+                        break;
+                    }
+                }
+                string[] parts = line.Split(";");
+
+                lines.Add(line);
             }
         }
-
+        
+        
         // här får man välja accept eller decline en registrering.
-        if (ChosingRegister == selected_patient.Email)
-        {
             try { Console.Clear(); } catch { }
             Console.WriteLine("Accept or Decline: " + selected_patient.Email);
             Console.WriteLine("Type A or D: ");
             string AorD = Console.ReadLine();
-
-            Status newStatus;
 
             if (AorD == "a" || AorD == "A")
             {
@@ -114,9 +127,8 @@ public class Admin : IUser
                 // ändra status till denied
                 newStatus = Status.Denied;
             }
-        }
         // ifall den sökta patienten inte finns så kommer detta meddelandet. 
-        else
+        if (selected_patient == null)
         {
             try { Console.Clear(); } catch { }
             Console.WriteLine("No such user found: " + ChosingRegister);
@@ -125,25 +137,6 @@ public class Admin : IUser
             Console.ReadLine();
         }
 
-        List<string> lines = new List<string>();
-        // läsa alla rader i filen.
-        using (StreamReader reader = new StreamReader(PatientFilePath))
-        {
-            string line;
-
-
-
-            while ((line = reader.ReadLine()) != null)
-            {
-                if (line.Contains(selected_patient.Email))
-                {
-                    string[] parts = line.Split(";");
-                    parts[2] = "Accepted";
-                }
-                lines.Add(line);
-            }
-        }
-        
         using (StreamWriter writer = new StreamWriter(PatientFilePath, append: false))
         {
             foreach (string newLine in lines)
