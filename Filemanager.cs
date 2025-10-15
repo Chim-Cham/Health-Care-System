@@ -112,7 +112,7 @@ public class Filemanage
             using (StreamWriter writer = new StreamWriter(PatientFilePath, append: true))
             {
                 // Hämtar metoden för att skriva in användaren i filen.
-                writer.WriteLine(newPatient.ToFileString(email, password));
+                writer.WriteLine(newPatient.ToFileString(email, password, Status.Pending));
             }
 
             // Bekräftar att användaren sparades

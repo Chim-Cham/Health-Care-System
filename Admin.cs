@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace HCS;
 
 public class Admin : IUser
@@ -59,12 +61,104 @@ public class Admin : IUser
         Console.ReadLine();
     }
 
+    public void Registration(List<Patient> patients, Status status, string PatientFilePath)
+    {
+        try { Console.Clear(); } catch { }
+        Console.WriteLine("Here is all pending registrations");
+
+        // lopar igenom alla patienter som har status pending
+        foreach (Patient patient in patients)
+        {
+            if (status == Status.Pending)
+            {
+                Console.WriteLine(patient.Email + " " + status);
+            }
+        }
+        Console.WriteLine();
+        Console.WriteLine("Which registration would you like to accept or decline");
+        Console.WriteLine();
+        string ChosingRegister = Console.ReadLine();
+
+        // skapar variablen för att gämföra vem användaren söker 
+        Patient? selected_patient = null;
+
+        //lopar igenom dem igen och ger selected_patient värdet för patienten.
+        foreach (Patient patient in patients)
+        {
+            if (selected_patient == patient)
+            {
+                selected_patient = patient;
+                break;
+            }
+        }
+
+        // här får man välja accept eller decline en registrering.
+        if (ChosingRegister == selected_patient.Email)
+        {
+            try { Console.Clear(); } catch { }
+            Console.WriteLine("Accept or Decline: " + selected_patient.Email);
+            Console.WriteLine("Type A or D: ");
+            string AorD = Console.ReadLine();
+
+            Status newStatus;
+
+            if (AorD == "a" || AorD == "A")
+            {
+                // ändra status till Accepted.
+                newStatus = Status.Accept;
+
+            }
+
+            else if (AorD == "d" || AorD == "D")
+            {
+                // ändra status till denied
+                newStatus = Status.Denied;
+            }
+        }
+        // ifall den sökta patienten inte finns så kommer detta meddelandet. 
+        else
+        {
+            try { Console.Clear(); } catch { }
+            Console.WriteLine("No such user found: " + ChosingRegister);
+            Console.WriteLine("Try again");
+            Console.WriteLine("Press enter to continue...");
+            Console.ReadLine();
+        }
+
+        List<string> lines = new List<string>();
+        // läsa alla rader i filen.
+        using (StreamReader reader = new StreamReader(PatientFilePath))
+        {
+            string line;
+
+
+
+            while ((line = reader.ReadLine()) != null)
+            {
+                if (line.Contains(selected_patient.Email))
+                {
+                    string[] parts = line.Split(";");
+                    parts[2] = "Accepted";
+                }
+                lines.Add(line);
+            }
+        }
+        
+        using (StreamWriter writer = new StreamWriter(PatientFilePath, append: false))
+        {
+            foreach (string newLine in lines)
+            {
+                writer.WriteLine(patients);
+            }
+        }
+    }
+
 
 
 
     // denna kan man override för en annan meny för andra användare. 
     //kan va att man behöver ändra till ej static när andra punkter körs om man ska hämta variablar från program.cs
-    public bool Menu(string StaffFilepath)
+    public bool Menu(string StaffFilepath, List<Patient> patients, Status status , string PatientFilePath)
     {
         bool logout = false;
         bool runningAdmin = true;
@@ -102,6 +196,8 @@ public class Admin : IUser
                     break;
 
                 case "4":
+                // funderar på hur det ska kallas
+                    Registration(patients, status, PatientFilePath);
                     break;
 
                 case "5":

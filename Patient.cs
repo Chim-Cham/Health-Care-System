@@ -4,6 +4,7 @@ public class Patient : IUser
 {
     public string Email;
     string _password;
+    Status status = Status.Pending;
 
     public Patient(string email, string password)
     {
@@ -20,9 +21,9 @@ public class Patient : IUser
     {
         return Role.Patient;
     }
-    public string ToFileString(string username, string password)
+    public string ToFileString(string username, string password, Status status)
     {
-        return $"{Email};{_password}";
+        return $"{Email};{_password};{status}";
     }
 
 
@@ -67,4 +68,11 @@ public class Patient : IUser
         return logout;
     }
 
+}
+
+public enum Status
+{
+    Pending,
+    Accept,
+    Denied
 }
