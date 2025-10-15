@@ -10,6 +10,8 @@ string AdminFilepath = Path.Combine("Data", "Admin.txt");
 string PatientFilePath = Path.Combine("Data", "Patient.txt");
 string StaffFilepath = Path.Combine("Data", "Staff.txt");
 string JournalFilepath = Path.Combine("Data", "Journal.txt");
+string LocationFilepath = Path.Combine("Data", "Location.txt");
+
 string BookingFilepath = Path.Combine("Data", "Booking.txt");
 
 
@@ -18,7 +20,7 @@ IUser? active_user = null;
 bool running = true;
 
 //kallar metoden EnsurePath för alla 3 txt filer
-Filemanage.EnsurePath(AdminFilepath, PatientFilePath, StaffFilepath, JournalFilepath);
+Filemanage.EnsurePath(AdminFilepath, PatientFilePath, StaffFilepath, JournalFilepath, LocationFilepath);
 
 Filemanage.LoadUsers(AdminFilepath, PatientFilePath, StaffFilepath, admins, patients, staff);
 
@@ -112,7 +114,7 @@ while (running)
         switch (active_user.GetRole())
         {
             case Role.Admin:
-                bool adminLoggedOut = ((Admin)active_user).Menu(StaffFilepath);
+                bool adminLoggedOut = ((Admin)active_user).Menu(StaffFilepath, LocationFilepath);
                 if (adminLoggedOut)
                 {
                     active_user = null; // loggar ut admin och går till login

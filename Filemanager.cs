@@ -6,12 +6,13 @@ namespace HCS;
 
 public class Filemanage
 {
-    public static void EnsurePath(string AdminFilepath, string PatientFilePath, string StaffFilepath, string JournalFilepath)
+    public static void EnsurePath(string AdminFilepath, string PatientFilePath, string StaffFilepath, string JournalFilepath, string LocationFilepath)
     {
         string directoryAdmin = Path.GetDirectoryName(AdminFilepath);
         string directoryPatient = Path.GetDirectoryName(PatientFilePath);
         string directoryStaff = Path.GetDirectoryName(StaffFilepath);
         string directoryJournal = Path.GetDirectoryName(JournalFilepath);
+        string directoryLocation = Path.GetDirectoryName(LocationFilepath);
 
         // kontorllerar att filen Admin.txt finns
         if (!string.IsNullOrEmpty(directoryAdmin))
@@ -53,6 +54,16 @@ public class Filemanage
             {
                 Directory.CreateDirectory(directoryJournal);
                 Console.WriteLine($"Created file: {directoryJournal}");
+            }
+        }
+
+        if (!string.IsNullOrEmpty(directoryLocation))
+        {
+            //ifall filen inte finns så skapas den filen
+            if (!Directory.Exists(directoryLocation))
+            {
+                Directory.CreateDirectory(directoryLocation);
+                Console.WriteLine($"Created file: {directoryLocation}");
             }
         }
     }
@@ -156,7 +167,6 @@ public class Filemanage
                 }
             }
 
-
         }
 
         //laddar alla personnel inlogg så de kan matcha när man loggar in 
@@ -197,6 +207,17 @@ public class Filemanage
         }
     }
 
+    public static void loadLocation(Location location, string LocationFilepath)
+    {
+        string[] lines = File.ReadAllLines(LocationFilepath);
+        foreach (string line in lines)
+        {
+            if (line != "")
+            {
+                string[] locationParts = line.Split(";");
+            }
+        }
+    }
     public static void ReqBooking(List<Staff> staff, string user, string BookingFilepath)
     {
         int i = 1;
