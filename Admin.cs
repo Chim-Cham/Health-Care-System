@@ -234,12 +234,34 @@ public class Admin : IUser
         }
     }
 
+    public void assignAdminRegion(string LocationFilepath, List<Admin> admins, string AdminFilepath)
+    {
+        try { Console.Clear(); } catch { }
+        Console.WriteLine("Choose the admin you want to assign");
+        foreach (Admin admin in admins)
+        {
+            Console.WriteLine(admin.Username);
+        }
+        string selectedAdmin = Console.ReadLine();
+        Admin? choosenAdmin = null;
+        foreach (Admin admin in admins)
+        {
+            if (admin.Username == selectedAdmin)
+            {
+                choosenAdmin = admin;
+                Console.WriteLine("admin:" + admin.Username);
+                Console.ReadLine();
+            }
+        }
+    }
+
+
 
 
 
     // denna kan man override för en annan meny för andra användare. 
     //kan va att man behöver ändra till ej static när andra punkter körs om man ska hämta variablar från program.cs
-    public bool Menu(string StaffFilepath, List<Patient> patients, Status status , string PatientFilePath, string LocationFilepath)
+    public bool Menu(string StaffFilepath, List<Patient> patients, Status status, string PatientFilePath, string LocationFilepath, List<Admin> admins, string AdminFilepath)
     {
         bool logout = false;
         bool runningAdmin = true;
@@ -254,8 +276,8 @@ public class Admin : IUser
             Console.WriteLine("2. Assaing permission for Admins [X]");
 
             // lägga till locations / vi ser det som avdelningar
-            Console.WriteLine("3. Adding locations [X]");
-            Console.WriteLine("4. Registrations"); 
+            Console.WriteLine("3. Adding locations");
+            Console.WriteLine("4. Registrations");
             Console.WriteLine("5. Create account - Staff");
             Console.WriteLine("6. List permissions [X]");
             Console.WriteLine("7. Log out");
@@ -264,6 +286,7 @@ public class Admin : IUser
             switch (Console.ReadLine())
             {
                 case "1":
+                    assignAdminRegion(LocationFilepath, admins, AdminFilepath);
                     break;
 
                 case "2":
@@ -275,7 +298,7 @@ public class Admin : IUser
                     break;
 
                 case "4":
-                // funderar på hur det ska kallas
+                    // funderar på hur det ska kallas
                     Registration(patients, status, PatientFilePath);
                     break;
 
