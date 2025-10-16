@@ -253,32 +253,76 @@ public class Admin : IUser
         try { Console.Clear(); } catch { }
         Console.WriteLine($"Which region do you want assign {choosenAdmin.Username} to?");
         Console.WriteLine("blekinge, halland, skåne eller kronoberg? ");
+        string assignRegionText = "";
         string choosenRegion = Console.ReadLine();
 
         if (choosenRegion == "blekinge")
         {
             choosenAdmin.Region = AllRegions.Blekinge;
+            assignRegionText = "Blekinge";
         }
 
         else if (choosenRegion == "halland")
         {
             choosenAdmin.Region = AllRegions.Halland;
+            assignRegionText = "Halland";
         }
         else if (choosenRegion == "skåne")
         {
             choosenAdmin.Region = AllRegions.Skåne;
-            Console.WriteLine(choosenAdmin.Region);
-            Console.ReadLine();
+            assignRegionText = "Skåne";
+            // Console.WriteLine(choosenAdmin.Region);
+            // Console.ReadLine();
         }
         else if (choosenRegion == "kronoberg")
         {
             choosenAdmin.Region = AllRegions.Kronoberg;
+            assignRegionText = "Kronoberg";
         }
         else if (choosenRegion == null)
         {
             Console.WriteLine("Region not found, press ENTER to go back to menu");
             Console.ReadLine();
         }
+
+        List<string> updatedLinesAdmin = new List<string>();
+
+        using (StreamReader reader = new StreamReader(AdminFilepath))
+        {
+            string line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                string[] parts = line.Split(';');
+                if (parts[0] == choosenAdmin.Username)
+                {
+                    List<string> partsList = parts.ToList();
+                    while (partsList.Count <= 2)
+                    {
+                        partsList.Add("");
+                    }
+                    partsList[2] = assignRegionText;
+
+                    string updatedLine = string.Join(";", partsList);
+                    updatedLinesAdmin.Add(updatedLine);
+                }
+                else
+                {
+                    updatedLinesAdmin.Add(line);
+                }
+            }
+        }
+
+        using (StreamWriter writer = new StreamWriter(AdminFilepath, append: false))
+        {
+            foreach (string line in updatedLinesAdmin)
+            {
+                writer.WriteLine(line);
+            }
+        }
+
+        Console.WriteLine($"Admin: {choosenAdmin.Username} has been assign to region: {choosenAdmin.Region}");
+        Console.WriteLine("Press ENTER to go back to menu");
+        Console.ReadLine();
 
     }
 
