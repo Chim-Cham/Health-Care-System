@@ -7,17 +7,14 @@ public class Admin : IUser
     public string Username;
     string _password;
 
-    // get role för admin 
-
-
+    public AllRegions Region = AllRegions.none;
 
     public Admin(string username, string password)
     {
         Username = username;
         _password = password;
+        //Region = region;
     }
-
-    // denna override för Admin meny 
 
     public bool TryLogin(string username, string password)
     {
@@ -249,18 +246,45 @@ public class Admin : IUser
             if (admin.Username == selectedAdmin)
             {
                 choosenAdmin = admin;
-                Console.WriteLine("admin:" + admin.Username);
-                Console.ReadLine();
+                // Console.WriteLine("admin:" + admin.Username);
+                // Console.ReadLine();
             }
         }
+        try { Console.Clear(); } catch { }
+        Console.WriteLine($"Which region do you want assign {choosenAdmin.Username} to?");
+        Console.WriteLine("blekinge, halland, skåne eller kronoberg? ");
+        string choosenRegion = Console.ReadLine();
+
+        if (choosenRegion == "blekinge")
+        {
+            choosenAdmin.Region = AllRegions.Blekinge;
+        }
+
+        else if (choosenRegion == "halland")
+        {
+            choosenAdmin.Region = AllRegions.Halland;
+        }
+        else if (choosenRegion == "skåne")
+        {
+            choosenAdmin.Region = AllRegions.Skåne;
+            Console.WriteLine(choosenAdmin.Region);
+            Console.ReadLine();
+        }
+        else if (choosenRegion == "kronoberg")
+        {
+            choosenAdmin.Region = AllRegions.Kronoberg;
+        }
+        else if (choosenRegion == null)
+        {
+            Console.WriteLine("Region not found, press ENTER to go back to menu");
+            Console.ReadLine();
+        }
+
     }
 
 
 
 
-
-    // denna kan man override för en annan meny för andra användare. 
-    //kan va att man behöver ändra till ej static när andra punkter körs om man ska hämta variablar från program.cs
     public bool Menu(string StaffFilepath, List<Patient> patients, Status status, string PatientFilePath, string LocationFilepath, List<Admin> admins, string AdminFilepath)
     {
         bool logout = false;
