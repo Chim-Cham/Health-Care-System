@@ -1,5 +1,5 @@
 lina;admin
-david;admin
+david;admin;Master
 gustav;admin
 samaad;admin
 imran;admin
