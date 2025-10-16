@@ -1,2 +1,7 @@
 manuel;patient;Pending
-sofia;patient;Pending
+lina;patient;Pending
+david;patient;Pending
+gustav;patient;Pending
+harris;password;Pending
+max;password;Pending
+havash;password;Pending
