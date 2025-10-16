@@ -61,6 +61,133 @@ public class Admin : IUser
         Console.ReadLine();
     }
 
+    public void Registration(List<Patient> patients, Status status, string PatientFilePath)
+    {
+        try { Console.Clear(); } catch { }
+        Console.WriteLine("Here is all pending registrations");
+
+        // Visa patienter som har status Pending
+        foreach (Patient patient in patients)
+        {
+            if (patient.status == Status.Pending)
+            {
+                Console.WriteLine(patient.Email + " " + patient.status);
+            }
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("Which registration would you like to accept or decline");
+        string ChosingRegister = Console.ReadLine();
+
+        //skapar variablen för att hitta rätt patient.
+        Patient? selected_patient = null;
+
+        // Leta upp patienten med foreach
+        foreach (Patient patient in patients)
+        {
+            if (patient.Email == ChosingRegister)
+            {
+                selected_patient = patient;
+                break;
+            }
+        }
+
+        //ifall den inte hittas
+        if (selected_patient == null)
+        {
+            Console.Clear();
+            Console.WriteLine("No such user found: " + ChosingRegister);
+            Console.WriteLine("");
+            Console.WriteLine("Press enter to continue...");
+            Console.ReadLine();
+        }
+
+        Console.Clear();
+        Console.WriteLine("Accept or Decline: " + selected_patient.Email);
+        Console.WriteLine("Type A or D: ");
+        string AorD = Console.ReadLine();
+
+        //skapar variablen för newstatus text assaingar den för mindre strul längre fram. 
+        string newStatusText = "";
+
+        //accept request
+        if (AorD == "a" || AorD == "A")
+        {
+            selected_patient.status = Status.Accept;
+            newStatusText = "Accepted";
+        }
+
+        //denied request
+        else if (AorD == "d" || AorD == "D")
+        {
+            selected_patient.status = Status.Denied;
+            newStatusText = "Denied";
+        }
+
+        // fel input
+        else
+        {
+            Console.WriteLine("Invalid input.");
+            Console.WriteLine("");
+            Console.WriteLine("Press enter to continue...");
+            Console.ReadLine();
+        }
+
+        // Skapa ny lista för att skriva uppdaterade rader
+        List<string> updatedLines = new List<string>();
+
+        // Läs gamla filen, uppdatera raden med rätt email
+        using (StreamReader reader = new StreamReader(PatientFilePath))
+        {
+            string line;
+            //läser rader och hoppar över tomma rader.
+            while ((line = reader.ReadLine()) != null)
+            {
+                //splittar 
+                string[] parts = line.Split(';');
+
+                // if part[0] namnet/emial är samma som selected_user email 
+                if (parts[0] == selected_patient.Email)
+                {
+                    //gör raden till en lista
+                    List<string> partsList = parts.ToList();
+
+                    //ifall partlist.count är mindre än 2 gå vidare till nästa o 
+                    while (partsList.Count <= 2)
+                    {
+                        partsList.Add("");
+                    }
+                    // bytar ut delen med pending mot A or D
+                    partsList[2] = newStatusText;
+
+                    //gör en ny lista och uppdaterar den raden med nya status.
+                    string updatedLine = string.Join(";", partsList);
+                    updatedLines.Add(updatedLine);
+                }
+
+                // för alla andra registrations så sparas den raden som den är. 
+                else
+                {
+                    updatedLines.Add(line);
+                }
+            }
+        }
+
+        // Skriv tillbaka uppdaterad lista till filen
+        using (StreamWriter writer = new StreamWriter(PatientFilePath, append: false))
+        {
+            foreach (string updatedLine in updatedLines)
+            {
+                writer.WriteLine(updatedLine);
+            }
+        }
+
+        Console.WriteLine($"Patient {selected_patient.Email} has been {newStatusText}.");
+        Console.WriteLine("Press enter to continue...");
+        Console.ReadLine();
+    }
+
+
     public void addLocation(string LocationFilepath)
     {
         try { Console.Clear(); } catch { }
@@ -112,7 +239,7 @@ public class Admin : IUser
 
     // denna kan man override för en annan meny för andra användare. 
     //kan va att man behöver ändra till ej static när andra punkter körs om man ska hämta variablar från program.cs
-    public bool Menu(string StaffFilepath, string LocationFilepath)
+    public bool Menu(string StaffFilepath, List<Patient> patients, Status status , string PatientFilePath, string LocationFilepath)
     {
         bool logout = false;
         bool runningAdmin = true;
@@ -126,17 +253,13 @@ public class Admin : IUser
             /// region/creating account for personnel/ location/ list permissions
             Console.WriteLine("2. Assaing permission for Admins [X]");
 
-            // lägga till locations / ci ser det som avdelningar
+            // lägga till locations / vi ser det som avdelningar
             Console.WriteLine("3. Adding locations [X]");
-
-            // Patients / Accept or deny
-            Console.WriteLine("4. Registrations [X]");
-
-            // Personnel / Admin 
-            Console.WriteLine("5. Create account [X]");
+            Console.WriteLine("4. Registrations"); 
+            Console.WriteLine("5. Create account - Staff");
             Console.WriteLine("6. List permissions [X]");
-            Console.WriteLine("7. Log out [x]");
-            Console.WriteLine("8. Quit [X]");
+            Console.WriteLine("7. Log out");
+            Console.WriteLine("8. Quit");
 
             switch (Console.ReadLine())
             {
@@ -152,6 +275,8 @@ public class Admin : IUser
                     break;
 
                 case "4":
+                // funderar på hur det ska kallas
+                    Registration(patients, status, PatientFilePath);
                     break;
 
                 case "5":

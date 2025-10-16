@@ -1,10 +1,7 @@
-lina;patient
-david;patient
-gustav;patient
-samaad;patient
-imran;patient
-
-harris;password
-max;password
-havash;password
-havash;password
+manuel;patient;Pending
+lina;patient;Pending
+david;patient;Pending
+gustav;patient;Pending
+harris;password;Pending
+max;password;Pending
+havash;password;Pending
