@@ -1,15 +1,18 @@
+using System.Reflection.Metadata;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 
 namespace HCS;
 
 public class Filemanage
 {
-    public static void EnsurePath(string AdminFilepath, string PatientFilePath, string StaffFilepath, string JournalFilepath)
+    public static void EnsurePath(string AdminFilepath, string PatientFilePath, string StaffFilepath, string JournalFilepath, string LocationFilepath)
     {
         string directoryAdmin = Path.GetDirectoryName(AdminFilepath);
         string directoryPatient = Path.GetDirectoryName(PatientFilePath);
         string directoryStaff = Path.GetDirectoryName(StaffFilepath);
         string directoryJournal = Path.GetDirectoryName(JournalFilepath);
+        string directoryLocation = Path.GetDirectoryName(LocationFilepath);
 
         // kontorllerar att filen Admin.txt finns
         if (!string.IsNullOrEmpty(directoryAdmin))
@@ -51,6 +54,16 @@ public class Filemanage
             {
                 Directory.CreateDirectory(directoryJournal);
                 Console.WriteLine($"Created file: {directoryJournal}");
+            }
+        }
+
+        if (!string.IsNullOrEmpty(directoryLocation))
+        {
+            //ifall filen inte finns så skapas den filen
+            if (!Directory.Exists(directoryLocation))
+            {
+                Directory.CreateDirectory(directoryLocation);
+                Console.WriteLine($"Created file: {directoryLocation}");
             }
         }
     }
@@ -120,7 +133,7 @@ public class Filemanage
             Console.ReadLine();
         }
     }
-    
+
     //Loadusers hämtar datan från textfilerna och laddar de innan programmet startar. sen kallas metoden i program.cs
     public static void LoadUsers(string AdminFilepath, string PatientFilePath, string StaffFilepath, List<Admin> admins, List<Patient> patients, List<Staff> staff)
     {
@@ -154,7 +167,6 @@ public class Filemanage
                 }
             }
 
-
         }
 
         //laddar alla personnel inlogg så de kan matcha när man loggar in 
@@ -172,6 +184,63 @@ public class Filemanage
             }
 
         }
+    }
+
+    // Method for fetching journal entries relating to the given user. Patients can only acces their own journal while doctors can access all available journals.
+    public static void fetchJournal(string user, string JournalFilepath)
+    {
+        // Goes through "Journal.txt" and find the patient name matching the given username. information is saved in the format of <doctor>;<patient>;<notes>
+        string[] readJournal = File.ReadAllLines(JournalFilepath);
+        foreach (string line in readJournal)
+        {
+            if (line != "")
+            {
+                // The read lines get's split into parts at every given ";" in the string and then used to indentify the patient matching the journal
+                string[] lineArray = line.Split(";");
+                if (lineArray[1] == user)
+                {
+                    System.Console.WriteLine($"Doctor: {lineArray[0]}");
+                    System.Console.WriteLine($"Patient: {lineArray[1]}");
+                    System.Console.WriteLine($"Notes: {lineArray[2]}");
+                }
+            }
+        }
+    }
+
+    public static void loadLocation(Location location, string LocationFilepath)
+    {
+        string[] lines = File.ReadAllLines(LocationFilepath);
+        foreach (string line in lines)
+        {
+            if (line != "")
+            {
+                string[] locationParts = line.Split(";");
+            }
+        }
+    }
+    public static void ReqBooking(List<Staff> staff, string user, string BookingFilepath)
+    {
+        int i = 1;
+        foreach (Staff staffer in staff)
+        {
+            System.Console.WriteLine($"{i}. {staffer.Username}");
+            i++;
+        }
+        System.Console.Write("What doctor do you wanna meet?: ");
+        string doctor = Console.ReadLine();
+        System.Console.Write("What time would you like to meet?(8-16): ");
+        string time = Console.ReadLine();
+        System.Console.Write("What month would you like to meet?(Feb-Nov): ");
+        string month = Console.ReadLine();
+        System.Console.Write("What day?(1-28): ");
+        string day = Console.ReadLine();
+        int.TryParse(time, out int timer);
+        using (StreamWriter writer = new StreamWriter(BookingFilepath, append: true))
+        {
+            writer.WriteLine($"{doctor};{user};{timer}:00;{timer + 1}:00;{month};{day};Pending");
+        }
+        System.Console.WriteLine("Appointment Requested! Press Enter to continue.");
+        Console.ReadLine();
     }
 
 }
