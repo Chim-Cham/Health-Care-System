@@ -7,17 +7,14 @@ public class Admin : IUser
     public string Username;
     string _password;
 
-    // get role för admin 
-
-
+    public AllRegions Region = AllRegions.none;
 
     public Admin(string username, string password)
     {
         Username = username;
         _password = password;
+        //Region = region;
     }
-
-    // denna override för Admin meny 
 
     public bool TryLogin(string username, string password)
     {
@@ -234,12 +231,105 @@ public class Admin : IUser
         }
     }
 
+    public void assignAdminRegion(string LocationFilepath, List<Admin> admins, string AdminFilepath)
+    {
+        try { Console.Clear(); } catch { }
+        Console.WriteLine("Choose the admin you want to assign");
+        foreach (Admin admin in admins)
+        {
+            Console.WriteLine(admin.Username);
+        }
+        string selectedAdmin = Console.ReadLine();
+        Admin? choosenAdmin = null;
+        foreach (Admin admin in admins)
+        {
+            if (admin.Username == selectedAdmin)
+            {
+                choosenAdmin = admin;
+                // Console.WriteLine("admin:" + admin.Username);
+                // Console.ReadLine();
+            }
+        }
+        try { Console.Clear(); } catch { }
+        Console.WriteLine($"Which region do you want assign {choosenAdmin.Username} to?");
+        Console.WriteLine("blekinge, halland, skåne eller kronoberg? ");
+        string assignRegionText = "";
+        string choosenRegion = Console.ReadLine();
+
+        if (choosenRegion == "blekinge")
+        {
+            choosenAdmin.Region = AllRegions.Blekinge;
+            assignRegionText = "Blekinge";
+        }
+
+        else if (choosenRegion == "halland")
+        {
+            choosenAdmin.Region = AllRegions.Halland;
+            assignRegionText = "Halland";
+        }
+        else if (choosenRegion == "skåne")
+        {
+            choosenAdmin.Region = AllRegions.Skåne;
+            assignRegionText = "Skåne";
+            // Console.WriteLine(choosenAdmin.Region);
+            // Console.ReadLine();
+        }
+        else if (choosenRegion == "kronoberg")
+        {
+            choosenAdmin.Region = AllRegions.Kronoberg;
+            assignRegionText = "Kronoberg";
+        }
+        else if (choosenRegion == null)
+        {
+            Console.WriteLine("Region not found, press ENTER to go back to menu");
+            Console.ReadLine();
+        }
+
+        List<string> updatedLinesAdmin = new List<string>();
+
+        using (StreamReader reader = new StreamReader(AdminFilepath))
+        {
+            string line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                string[] parts = line.Split(';');
+                if (parts[0] == choosenAdmin.Username)
+                {
+                    List<string> partsList = parts.ToList();
+                    while (partsList.Count <= 2)
+                    {
+                        partsList.Add("");
+                    }
+                    partsList[2] = assignRegionText;
+
+                    string updatedLine = string.Join(";", partsList);
+                    updatedLinesAdmin.Add(updatedLine);
+                }
+                else
+                {
+                    updatedLinesAdmin.Add(line);
+                }
+            }
+        }
+
+        using (StreamWriter writer = new StreamWriter(AdminFilepath, append: false))
+        {
+            foreach (string line in updatedLinesAdmin)
+            {
+                writer.WriteLine(line);
+            }
+        }
+
+        Console.WriteLine($"Admin: {choosenAdmin.Username} has been assign to region: {choosenAdmin.Region}");
+        Console.WriteLine("Press ENTER to go back to menu");
+        Console.ReadLine();
+
+    }
 
 
 
-    // denna kan man override för en annan meny för andra användare. 
-    //kan va att man behöver ändra till ej static när andra punkter körs om man ska hämta variablar från program.cs
-    public bool Menu(string StaffFilepath, List<Patient> patients, Status status , string PatientFilePath, string LocationFilepath)
+
+    public bool Menu(string StaffFilepath, List<Patient> patients, Status status, string PatientFilePath, string LocationFilepath, List<Admin> admins, string AdminFilepath)
     {
         bool logout = false;
         bool runningAdmin = true;
@@ -254,8 +344,8 @@ public class Admin : IUser
             Console.WriteLine("2. Assaing permission for Admins [X]");
 
             // lägga till locations / vi ser det som avdelningar
-            Console.WriteLine("3. Adding locations [X]");
-            Console.WriteLine("4. Registrations"); 
+            Console.WriteLine("3. Adding locations");
+            Console.WriteLine("4. Registrations");
             Console.WriteLine("5. Create account - Staff");
             Console.WriteLine("6. List permissions [X]");
             Console.WriteLine("7. Log out");
@@ -264,6 +354,7 @@ public class Admin : IUser
             switch (Console.ReadLine())
             {
                 case "1":
+                    assignAdminRegion(LocationFilepath, admins, AdminFilepath);
                     break;
 
                 case "2":
@@ -275,7 +366,7 @@ public class Admin : IUser
                     break;
 
                 case "4":
-                // funderar på hur det ska kallas
+                    // funderar på hur det ska kallas
                     Registration(patients, status, PatientFilePath);
                     break;
 
