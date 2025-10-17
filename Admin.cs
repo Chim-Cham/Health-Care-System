@@ -14,7 +14,7 @@ public class Admin : IUser
     {
         Username = username;
         _password = password;
-        Permissions = new List<string>();
+        Permissions = permissions;
     }
 
     public bool TryLogin(string username, string password)
@@ -314,12 +314,9 @@ public class Admin : IUser
                 return;
         }
 
-        Console.WriteLine(selectedAdmin.Permissions);
-        Console.ReadLine();
-
 
         // Skriv tillbaka till filen
-        /*List<string> updatedLines = new List<string>();
+        List<string> updatedLines = new List<string>();
         using (StreamReader reader = new StreamReader(AdminFilepath))
         {
             string line;
@@ -347,31 +344,33 @@ public class Admin : IUser
                     string updatedLine = string.Join(";", partsList);
                     updatedLines.Add(updatedLine);
                 }
+                Console.WriteLine(line);
                 Console.ReadLine();
-*/
-        // fortfarande knasigt.
-        /*using (StreamWriter writer = new StreamWriter(AdminFilepath, append: false))
-        {
-            foreach (string lines in updatedLines)
-            {
-                writer.WriteLine(lines);
+
+                // fortfarande knasigt.
+                /*using (StreamWriter writer = new StreamWriter(AdminFilepath, append: false))
+                {
+                    foreach (string lines in updatedLines)
+                    {
+                        writer.WriteLine(lines);
+                    }
+                }
+
+                Console.WriteLine($"Permission updated for {selectedAdmin.Username}.");
+                Console.WriteLine("Press ENTER to go back.");
+                Console.ReadLine();*/
+                using (StreamWriter writer = new StreamWriter(AdminFilepath, append: false))
+                {
+                    foreach (Admin admin1 in admins)
+                    {
+                        writer.WriteLine(admin1.Username + ";" + admin1._password + ";" + admin1.Permissions);
+                    }
+                }
+
+                Console.WriteLine("Permission '" + newPermission + "' added to " + selectedAdmin.Username + ".");
+                Console.ReadLine();
             }
         }
-
-        Console.WriteLine($"Permission updated for {selectedAdmin.Username}.");
-        Console.WriteLine("Press ENTER to go back.");
-        Console.ReadLine();*/
-        using (StreamWriter writer = new StreamWriter(AdminFilepath, false))
-        {
-            foreach (Admin admin1 in admins)
-            {
-                string permissionsText = string.Join(",", admin1.Permissions);
-                writer.WriteLine(admin.Username + ";" + admin1._password + ";" + permissionsText);
-            }
-        }
-
-        Console.WriteLine("Permission '" + newPermission + "' added to " + selectedAdmin.Username + ".");
-        Console.ReadLine();
     }
 
     public enum Permission
