@@ -79,7 +79,7 @@ public class Filemanage
         public static Admin FromFileToStringAdmin(string line)
         {
             string[] adminParts = line.Split(";");
-            return new Admin(adminParts[0], adminParts[1]);
+            return new Admin(adminParts[0], adminParts[1], adminParts[2]);
         }
 
         public static Patient FromFileToStringPatient(string line)
