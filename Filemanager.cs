@@ -231,11 +231,9 @@ public class Filemanage
     }
     public static void ReqBooking(List<Staff> staff, string user, string BookingFilepath)
     {
-        int i = 1;
         foreach (Staff staffer in staff)
         {
-            System.Console.WriteLine($"{i}. {staffer.Username}");
-            i++;
+            System.Console.WriteLine($"{staffer.Username}");
         }
         System.Console.Write("What doctor do you wanna meet?: ");
         string doctor = Console.ReadLine();
@@ -254,5 +252,48 @@ public class Filemanage
         Console.ReadLine();
     }
 
+    public static void HandleBooking(List<Patient> patients, string user, string BookingFilepath)
+    {
+        string[] lines = File.ReadAllLines(BookingFilepath);
+        string[] lineArray = new string[lines.Count()];
+        string[] lineSplit = new string[0];
+        int i = 0;
+        for (i = 0; i < lines.Length; i++)
+        {
+            if (lines[i].Contains("Pending"))
+            {
+                lineArray[i] = lines[i];
+            }
+        }
+        i = 0;
+        foreach (string line1 in lineArray)
+        {
+            System.Console.WriteLine($"{i}. {line1}");
+            i++;
+        }
+        System.Console.WriteLine("What bookings do you wanna respond to?");
+        string lineSelect = Console.ReadLine();
+        int.TryParse(lineSelect, out int lineNumber);
+        System.Console.WriteLine("1. Accept or 2. Decline?");
+        string choiceSelect = Console.ReadLine();
+        if (choiceSelect == "1")
+        {
+            lineSplit = lineArray[lineNumber].Split(";");
+            lineSplit[6] = "Accepted";
+        }
+        if (choiceSelect == "2")
+        {
+            lineSplit = lineArray[lineNumber].Split(";");
+            lineSplit[6] = "Declined";
+        }
+        for (i = 0; i < lines.Length; i++)
+        {
+            if (lines[i].Contains(lineSplit[0]) && lines[i].Contains(lineSplit[1]) && lines[i].Contains("Pending"))
+            {
+                lines[i] = string.Join(";", lineSplit);
+            }
+        }
+        File.WriteAllLines(BookingFilepath, lines);       
+    }
 }
 

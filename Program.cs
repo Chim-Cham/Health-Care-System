@@ -11,7 +11,6 @@ string PatientFilePath = Path.Combine("Data", "Patient.txt");
 string StaffFilepath = Path.Combine("Data", "Staff.txt");
 string JournalFilepath = Path.Combine("Data", "Journal.txt");
 string LocationFilepath = Path.Combine("Data", "Location.txt");
-
 string BookingFilepath = Path.Combine("Data", "Booking.txt");
 
 
@@ -127,7 +126,7 @@ while (running)
                 break;
 
             case Role.Staff:
-                bool staffLoggedOut = ((Staff)active_user).Menu(patients, JournalFilepath);
+                bool staffLoggedOut = ((Staff)active_user).Menu(patients, JournalFilepath, BookingFilepath);
                 if (staffLoggedOut)
                 {
                     active_user = null;

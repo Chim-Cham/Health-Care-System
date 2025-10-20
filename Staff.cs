@@ -71,7 +71,7 @@ public class Staff : IUser
         }
     }
 
-    public bool Menu(List<Patient> patient, string JournalFilepath)
+    public bool Menu(List<Patient> patient, string JournalFilepath, string BookingFilepath)
     {
         bool runningStaff = true;
         bool logout = false;
@@ -83,7 +83,7 @@ public class Staff : IUser
             Console.WriteLine("-----Healtcare-----");
             Console.WriteLine("1. Schedual");
             Console.WriteLine("2. View Journal");
-            Console.WriteLine("3 Write Journal");
+            Console.WriteLine("3. Write Journal");
             Console.WriteLine("4. booking");
             Console.WriteLine("5. Logout");
             Console.WriteLine("6. Quit");
@@ -103,6 +103,7 @@ public class Staff : IUser
                     break;
 
                 case "4":
+                    Filemanage.HandleBooking(patient, Username, BookingFilepath);
                     break;
 
                 case "5":
