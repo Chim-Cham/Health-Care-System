@@ -1,5 +1,5 @@
-lina;admin;Skåne;Location,Registration,AssaingRegion,
-david;admin;Blekinge;Master,
-gustav;admin;Halland;Master,
-samaad;admin;Halland
-imran;admin;Kronoberg;AddStaff,
+lina;admin;Skåne;Registration,
+david;admin;Blekinge;AssignPermission,
+gustav;admin;Halland;
+samaad;admin;Halland;
+imran;admin;Kronoberg;

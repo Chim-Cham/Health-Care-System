@@ -1,6 +1,3 @@
-using System.ComponentModel;
-using System.Globalization;
-
 namespace HCS;
 
 public class Admin : IUser
@@ -302,7 +299,7 @@ public class Admin : IUser
                 break;
             case "3":
                 //newpermission = Permission.AssaingRegion;
-                newPermission = "AssaingRegion";
+                newPermission = "AssignRegion";
                 selectedAdmin.Permissions.Add(newPermission);
                 break;
             case "4":
@@ -314,7 +311,7 @@ public class Admin : IUser
                 selectedAdmin.Permissions.Add(newPermission);
                 break;
             case "6":
-                newPermission = "Master";
+                newPermission = "AssignPermission";
                 selectedAdmin.Permissions.Add(newPermission);
                 break;
 
@@ -372,8 +369,7 @@ public class Admin : IUser
         Console.ReadLine();
     }
 
-    // denna kan man override för en annan meny för andra användare. 
-    //kan va att man behöver ändra till ej static när andra punkter körs om man ska hämta variablar från program.cs
+
     public void assignAdminRegion(string LocationFilepath, List<Admin> admins, string AdminFilepath)
     {
         try { Console.Clear(); } catch { }
@@ -469,6 +465,20 @@ public class Admin : IUser
 
     }
 
+    public void ViewListpermission(string AdminFilepath, Admin admin, List<Admin> admins)
+    {
+        foreach (Admin admin1 in admins)
+        {
+            Console.WriteLine(admin1.Username);
+            foreach (string admin2 in admin1.Permissions)
+            {
+                Console.WriteLine(admin2);
+            }
+        }
+        Console.WriteLine("Press enter to go back");
+        Console.ReadLine();
+    }
+
 
 
     public bool Menu(string StaffFilepath, List<Patient> patients, Status status, string PatientFilePath, string LocationFilepath, Admin admin, List<Admin> admins, string AdminFilepath)
@@ -480,44 +490,44 @@ public class Admin : IUser
         {
             Console.Clear();
             Console.WriteLine("-----Healtcare-----");
-            Console.WriteLine("1. Assaing Admin to region");
+            Console.WriteLine("1. Assign Admin to region");
 
             /// region/creating account for personnel/ location/ list permissions
-            Console.WriteLine("2. Assaing permission for Admins");
+            Console.WriteLine("2. Assign permission for Admins");
 
             // lägga till locations / vi ser det som avdelningar
             Console.WriteLine("3. Adding locations");
             Console.WriteLine("4. Registrations");
             Console.WriteLine("5. Create account - Staff");
-            Console.WriteLine("6. List permissions [X]");
+            Console.WriteLine("6. List permissions");
             Console.WriteLine("7. Log out");
             Console.WriteLine("8. Quit");
 
             switch (Console.ReadLine())
             {
                 case "1":
-                    if (admin.Permissions.Contains("AssaingRegion"))
+                    if (admin.Permissions.Contains("AssignRegion"))
                     {
                         assignAdminRegion(LocationFilepath, admins, AdminFilepath);
                         break;
                     }
                     else
                     {
-                        Console.WriteLine("You don't have the authority to add location");
+                        Console.WriteLine("You don't have the authority to assign admins to regions");
                         Console.WriteLine("Press enter to go back to menu");
                         Console.ReadLine();
                     }
                     break;
 
                 case "2":
-                    if (admin.Permissions.Contains("Master"))
+                    if (admin.Permissions.Contains("AssignPermission"))
                     {
                         GivePermission(AdminFilepath, admin, admins);
                         break;
                     }
                     else
                     {
-                        Console.WriteLine("You don't have the authority to add location");
+                        Console.WriteLine("You don't have the authority to give permissions");
                         Console.WriteLine("Press enter to go back to menu");
                         Console.ReadLine();
                     }
@@ -547,7 +557,7 @@ public class Admin : IUser
                     }
                     else
                     {
-                        Console.WriteLine("You don't have the authority to add location");
+                        Console.WriteLine("You don't have the authority to handle new patient-registrations");
                         Console.WriteLine("Press enter to go back to menu");
                         Console.ReadLine();
                     }
@@ -561,13 +571,24 @@ public class Admin : IUser
                     }
                     else
                     {
-                        Console.WriteLine("You don't have the authority to add location");
+                        Console.WriteLine("You don't have the authority to add staff");
                         Console.WriteLine("Press enter to go back to menu");
                         Console.ReadLine();
                     }
                     break;
 
                 case "6":
+                    if (admin.Permissions.Contains("ViewPermissions"))
+                    {
+                        ViewListpermission(AdminFilepath, admin, admins);
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("You don't have the authority to view permissions");
+                        Console.WriteLine("Press enter to go back to menu");
+                        Console.ReadLine();
+                    }
                     break;
 
                 case "7":
