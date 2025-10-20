@@ -1,4 +1,3 @@
-using System.ComponentModel.Design;
 
 namespace HCS;
 

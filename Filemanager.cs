@@ -1,6 +1,3 @@
-using System.Reflection.Metadata;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
 
 namespace HCS;
 
@@ -84,9 +81,9 @@ public class Filemanage
             string password = adminParts[1];
 
             List<string> permissions = new List<string>();
-            if (adminParts.Length > 2)
+            if (adminParts.Length > 3)
             {
-                permissions = adminParts[2].Split(",").ToList();
+                permissions = adminParts[3].Split(",").ToList();
             }
 
 
