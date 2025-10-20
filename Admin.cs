@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Globalization;
 
 namespace HCS;
@@ -241,13 +242,13 @@ public class Admin : IUser
     {
         try { Console.Clear(); } catch { }
 
-        /* if (currentAdmin.permission != Permission.Master)
-         {
-             Console.WriteLine("You don't have permission to give permissions.");
-             Console.WriteLine("Press ENTER to go back.");
-             Console.ReadLine();
-             return;
-         }*/
+        /*if (admin.Permissions != Permissions.("Master"))
+        {
+            Console.WriteLine("You don't have permission to give permissions.");
+            Console.WriteLine("Press ENTER to go back.");
+            Console.ReadLine();
+            return;
+        }*/
 
         Console.WriteLine("-----Permissions-----");
         Console.WriteLine("1. Give permission for: Registrations");
@@ -296,22 +297,23 @@ public class Admin : IUser
         switch (choice)
         {
             case "1":
+                newPermission = "Registration";
                 selectedAdmin.Permissions.Add("Registration");
                 break;
             case "2":
-                newpermission = Permission.Location;
-                //selectedAdmin.permission.Add(Permission.Location);
+                //newpermission = Permission.Location;
                 newPermission = "Location";
+                selectedAdmin.Permissions.Add(newPermission);
                 break;
             case "3":
-                newpermission = Permission.AssaingRegion;
-                //selectedAdmin.permission.Add(Permission.AssaingRegion);
+                //newpermission = Permission.AssaingRegion;
                 newPermission = "AssaingRegion";
+                selectedAdmin.Permissions.Add(newPermission);
                 break;
             default:
                 Console.WriteLine("Invalid choice.");
                 Console.ReadLine();
-                return;
+                break;
         }
 
 
@@ -333,44 +335,33 @@ public class Admin : IUser
                     List<string> partsList = parts.ToList();
 
                     //ifall partlist.count 
-                    while (partsList.Count <= 2)
+                    while (partsList.Count <= 3)
                     {
                         partsList.Add("");
                     }
 
-                    partsList[2] = newPermission;
+                    partsList[3] += "," + newPermission;
 
                     //gör en ny lista och uppdaterar den raden med nya status.
                     string updatedLine = string.Join(";", partsList);
                     updatedLines.Add(updatedLine);
                 }
-                Console.WriteLine(line);
-                Console.ReadLine();
-
-                // fortfarande knasigt.
-                /*using (StreamWriter writer = new StreamWriter(AdminFilepath, append: false))
+                else
                 {
-                    foreach (string lines in updatedLines)
-                    {
-                        writer.WriteLine(lines);
-                    }
+                    updatedLines.Add(line);
                 }
-
-                Console.WriteLine($"Permission updated for {selectedAdmin.Username}.");
-                Console.WriteLine("Press ENTER to go back.");
-                Console.ReadLine();*/
-                using (StreamWriter writer = new StreamWriter(AdminFilepath, append: false))
-                {
-                    foreach (Admin admin1 in admins)
-                    {
-                        writer.WriteLine(admin1.Username + ";" + admin1._password + ";" + admin1.Permissions);
-                    }
-                }
-
-                Console.WriteLine("Permission '" + newPermission + "' added to " + selectedAdmin.Username + ".");
-                Console.ReadLine();
             }
         }
+        using (StreamWriter writer = new StreamWriter(AdminFilepath, append: false))
+        {
+            foreach (string lines in updatedLines)
+            {
+                writer.WriteLine(lines);
+            }
+        }
+        Console.WriteLine($"Permission updated for {selectedAdmin.Username}.");
+        Console.WriteLine("Press ENTER to go back.");
+        Console.ReadLine();
     }
 
     public enum Permission

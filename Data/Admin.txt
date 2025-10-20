@@ -1,6 +1,5 @@
-lina;admin
-david;admin
+lina;admin;Skåne;Location,Registration
 david;admin;Blekinge;Master
-gustav;admin
-samaad;admin
-imran;admin
+gustav;admin;Halland
+samaad;admin;Kronoberg
+imran;admin;Kronoberg
