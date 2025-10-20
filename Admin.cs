@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Globalization;
 
 namespace HCS;
@@ -6,14 +7,15 @@ public class Admin : IUser
 {
     public string Username;
     string _password;
+    public List<string> Permissions;
 
     public AllRegions Region = AllRegions.none;
 
-    public Admin(string username, string password)
+    public Admin(string username, string password, List<string> permissions)
     {
         Username = username;
         _password = password;
-        //Region = region;
+        Permissions = permissions;
     }
 
     public bool TryLogin(string username, string password)
@@ -24,6 +26,11 @@ public class Admin : IUser
     public Role GetRole()
     {
         return Role.Admin;
+    }
+
+    public string TofileString(string Username, string password, List<Permission> permissions)
+    {
+        return $"{Username};{password};{permissions}";
     }
 
 
@@ -133,7 +140,7 @@ public class Admin : IUser
         // Skapa ny lista för att skriva uppdaterade rader
         List<string> updatedLines = new List<string>();
 
-        // Läs gamla filen, uppdatera raden med rätt email
+        // Läs filen, uppdatera raden med selected_patient email
         using (StreamReader reader = new StreamReader(PatientFilePath))
         {
             string line;
@@ -231,6 +238,144 @@ public class Admin : IUser
         }
     }
 
+    public void GivePermission(string AdminFilepath, Admin admin, List<Admin> admins)
+    {
+        try { Console.Clear(); } catch { }
+
+        /*if (admin.Permissions != Permissions.("Master"))
+        {
+            Console.WriteLine("You don't have permission to give permissions.");
+            Console.WriteLine("Press ENTER to go back.");
+            Console.ReadLine();
+            return;
+        }*/
+
+        Console.WriteLine("-----Permissions-----");
+        Console.WriteLine("1. Give permission for: Registrations");
+        Console.WriteLine("2. Give permission for: Add Location");
+        Console.WriteLine("3. Give permission for: Assign to region");
+        string choice = Console.ReadLine();
+
+        Console.WriteLine("Which Admin would you like to give this permission to?");
+
+        // Lista admins
+        foreach (Admin admin1 in admins)
+        {
+            if (admin1.Username != admin.Username)
+            {
+                Console.WriteLine($"{admin1.Username}");
+            }
+        }
+        Console.WriteLine();
+        string chosenUsername = Console.ReadLine();
+
+        //skapar variabel selected admin.
+        Admin? selectedAdmin = null;
+        Permission newpermission = Permission.None;
+
+        // letar igenom admins och fångar den som användaren är ute efter.
+        foreach (Admin admin1 in admins)
+        {
+            if (admin1.Username == chosenUsername)
+            {
+                selectedAdmin = admin1;
+                break;
+            }
+        }
+
+        // felmeddelande för användaren
+        if (selectedAdmin == null)
+        {
+            Console.WriteLine("Admin not found.");
+            Console.WriteLine("Press ENTER to go back.");
+            Console.ReadLine();
+            return;
+        }
+
+        string newPermission = "";
+        // Uppdatera permission
+        switch (choice)
+        {
+            case "1":
+                newPermission = "Registration";
+                selectedAdmin.Permissions.Add("Registration");
+                break;
+            case "2":
+                //newpermission = Permission.Location;
+                newPermission = "Location";
+                selectedAdmin.Permissions.Add(newPermission);
+                break;
+            case "3":
+                //newpermission = Permission.AssaingRegion;
+                newPermission = "AssaingRegion";
+                selectedAdmin.Permissions.Add(newPermission);
+                break;
+            default:
+                Console.WriteLine("Invalid choice.");
+                Console.ReadLine();
+                break;
+        }
+
+
+        // Skriv tillbaka till filen
+        List<string> updatedLines = new List<string>();
+        using (StreamReader reader = new StreamReader(AdminFilepath))
+        {
+            string line;
+            //läser rader och hoppar över tomma rader.
+            while ((line = reader.ReadLine()) != null)
+            {
+                //splittar 
+                string[] parts = line.Split(';');
+
+                // if part[0] namnet/emial är samma som selected_user email 
+                if (parts[0] == selectedAdmin.Username)
+                {
+                    //gör raden till en lista
+                    List<string> partsList = parts.ToList();
+
+                    //ifall partlist.count 
+                    while (partsList.Count <= 3)
+                    {
+                        partsList.Add("");
+                    }
+
+                    partsList[3] += "," + newPermission;
+
+                    //gör en ny lista och uppdaterar den raden med nya status.
+                    string updatedLine = string.Join(";", partsList);
+                    updatedLines.Add(updatedLine);
+                }
+                else
+                {
+                    updatedLines.Add(line);
+                }
+            }
+        }
+        using (StreamWriter writer = new StreamWriter(AdminFilepath, append: false))
+        {
+            foreach (string lines in updatedLines)
+            {
+                writer.WriteLine(lines);
+            }
+        }
+        Console.WriteLine($"Permission updated for {selectedAdmin.Username}.");
+        Console.WriteLine("Press ENTER to go back.");
+        Console.ReadLine();
+    }
+
+    public enum Permission
+    {
+        None,
+        Register,
+        Location,
+        AssaingRegion,
+        Master
+    }
+
+
+    // denna kan man override för en annan meny för andra användare. 
+    //kan va att man behöver ändra till ej static när andra punkter körs om man ska hämta variablar från program.cs
     public void assignAdminRegion(string LocationFilepath, List<Admin> admins, string AdminFilepath)
     {
         try { Console.Clear(); } catch { }
@@ -328,8 +473,7 @@ public class Admin : IUser
 
 
 
-
-    public bool Menu(string StaffFilepath, List<Patient> patients, Status status, string PatientFilePath, string LocationFilepath, List<Admin> admins, string AdminFilepath)
+    public bool Menu(string StaffFilepath, List<Patient> patients, Status status, string PatientFilePath, string LocationFilepath,Admin admin, List<Admin> admins, string AdminFilepath)
     {
         bool logout = false;
         bool runningAdmin = true;
@@ -344,7 +488,7 @@ public class Admin : IUser
             Console.WriteLine("2. Assaing permission for Admins [X]");
 
             // lägga till locations / vi ser det som avdelningar
-            Console.WriteLine("3. Adding locations");
+            Console.WriteLine("3. Adding locations [X]");
             Console.WriteLine("4. Registrations");
             Console.WriteLine("5. Create account - Staff");
             Console.WriteLine("6. List permissions [X]");
@@ -358,6 +502,7 @@ public class Admin : IUser
                     break;
 
                 case "2":
+                    GivePermission(AdminFilepath, admin, admins);
                     break;
 
                 case "3":

@@ -1,0 +1,14 @@
+stil trying with logic for permissions
+
+We notised that the list permissions was not in the constuktor. so had
+to add that. now trying to make it work.
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch Admin-permison-registraitons
+# Your branch is up to date with 'origin/Admin-permison-registraitons'.
+#
+# Changes to be committed:
+#	modified:   Admin.cs
+#	modified:   Filemanager.cs
+#
