@@ -1,8 +1,12 @@
 
+using Microsoft.VisualBasic;
+
 namespace HCS;
 
 public class Filemanage
 {
+
+    // metod för att säkerställa att filerna som används finns och ifall det inte stämmer så skapas de filerna.
     public static void EnsurePath(string AdminFilepath, string PatientFilePath, string StaffFilepath, string JournalFilepath, string LocationFilepath)
     {
         string directoryAdmin = Path.GetDirectoryName(AdminFilepath);
@@ -67,7 +71,7 @@ public class Filemanage
 
 
 
-    //skapar en klass för Read som läser 
+    //skapar en klass för Read som läser användaren
     class ReadUser
     {
         string line;
@@ -75,18 +79,20 @@ public class Filemanage
         //Läser in från filen anändarnamn och lösenord och splitar så vi kan använda detta när vi ska ladda alla users. 
         public static Admin FromFileToStringAdmin(string line)
         {
+            //skapar en aray där vi splitar hela line in i delar.
             string[] adminParts = line.Split(";");
 
             string username = adminParts[0];
             string password = adminParts[1];
 
+            // splittar denna delen anorlunda för att det är en lista i Admin
             List<string> permissions = new List<string>();
             if (adminParts.Length > 3)
             {
                 permissions = adminParts[3].Split(",").ToList();
             }
 
-
+            // Returnerar dessa värden
             return new Admin(username, password, permissions);
         }
 
@@ -107,9 +113,6 @@ public class Filemanage
     //skapar en class för att lägga till användare 
     public class AddPatient
     {
-
-
-        //Här har jag gjort så att man lägger till en användare som är admin men vet inte hur jag ska ta mig till väga härifrån
 
         //endast metod för att lägga till patient
         public static void AddUser(string PatientFilePath)
@@ -226,21 +229,28 @@ public class Filemanage
             }
         }
     }
+
+    // reqBooking är för Patientens point of view
     public static void ReqBooking(List<Staff> staff, string user, string BookingFilepath)
     {
+        try { Console.Clear(); } catch{ }
         foreach (Staff staffer in staff)
         {
             System.Console.WriteLine($"{staffer.Username}");
         }
         System.Console.Write("What doctor do you wanna meet?: ");
         string staffSelect = Console.ReadLine();
+        // kan vara otydligt men user experiance får lida pågrund av tidsbegränsning. 
         System.Console.Write("What time would you like to meet?(8-16): ");
         string time = Console.ReadLine();
-        System.Console.Write("What month would you like to meet?(Feb-Nov): ");
+        System.Console.Write("What month would you like to meet?(Jan-Dec): ");
         string month = Console.ReadLine();
+        // felhantering fattas pågrund av samma sak som 4 rader upp.
         System.Console.Write("What day?(1-28): ");
         string day = Console.ReadLine();
         int.TryParse(time, out int timer);
+
+        // skriver alla sparade värden på en rad i filen booking.txt
         using (StreamWriter writer = new StreamWriter(BookingFilepath, append: true))
         {
             writer.WriteLine($"{staffSelect};{user};{timer}:00;{timer + 1}:00;{month};{day};Pending");
@@ -249,8 +259,10 @@ public class Filemanage
         Console.ReadLine();
     }
 
+// regBooking är för staffs point of view 
     public static void RegBooking(List<Patient> patients, string user, string BookingFilepath)
     {
+        try { Console.Clear(); } catch { }
         foreach (Patient patient in patients)
         {
             System.Console.WriteLine($"{patient.Email}");
@@ -259,7 +271,7 @@ public class Filemanage
         string patientSelect = Console.ReadLine();
         System.Console.Write("What time would you like to meet?(8-16): ");
         string time = Console.ReadLine();
-        System.Console.Write("What month would you like to meet?(Feb-Nov): ");
+        System.Console.Write("What month would you like to meet?(Jan-Dec): ");
         string month = Console.ReadLine();
         System.Console.Write("What day?(1-28): ");
         string day = Console.ReadLine();
