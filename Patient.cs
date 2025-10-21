@@ -45,6 +45,7 @@ public class Patient : IUser
             switch (Console.ReadLine())
             {
                 case "1":
+                    Filemanage.PatientSchedule(Email, BookingFilepath);
                     break;
 
                 case "2":

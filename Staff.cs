@@ -91,6 +91,7 @@ public class Staff : IUser
             switch (Console.ReadLine())
             {
                 case "1":
+                    Filemanage.DoctorSchedule(Username, BookingFilepath);
                     break;
 
                 case "2":
@@ -103,7 +104,24 @@ public class Staff : IUser
                     break;
 
                 case "4":
-                    Filemanage.HandleBooking(patient, Username, BookingFilepath);
+                    System.Console.WriteLine("What do you wanna do?");
+                    System.Console.WriteLine("1. Register");
+                    System.Console.WriteLine("2. Respond");
+                    System.Console.WriteLine("3. Edit");
+                    string bookingSelet = Console.ReadLine();
+                    System.Console.WriteLine();
+                    switch(bookingSelet)
+                    {
+                        case "1":
+                            Filemanage.RegBooking(patient, Username, BookingFilepath);
+                            break;
+                        case "2":
+                            Filemanage.HandleBooking(patient, Username, BookingFilepath);
+                            break;
+                        case "3":
+                            Filemanage.EditBooking(patient, Username, BookingFilepath);
+                            break;
+                    }
                     break;
 
                 case "5":
