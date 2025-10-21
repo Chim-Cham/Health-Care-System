@@ -400,8 +400,10 @@ public class Filemanage
                 System.Console.WriteLine($"Patient: {lineSplit[1]}");
                 System.Console.WriteLine($"Time: {lineSplit[2]}-{lineSplit[3]}");
                 System.Console.WriteLine($"Date: {lineSplit[4]} {lineSplit[5]}");
+                System.Console.WriteLine();
             }
         }
+        Console.ReadLine();
     }
     
     public static void PatientSchedule(string user, string BookingFilepath)
@@ -415,8 +417,10 @@ public class Filemanage
                 System.Console.WriteLine($"Doctor: {lineSplit[0]}");
                 System.Console.WriteLine($"Time: {lineSplit[2]}-{lineSplit[3]}");
                 System.Console.WriteLine($"Date: {lineSplit[4]} {lineSplit[5]}");
+                System.Console.WriteLine();
             }
         }
+        Console.ReadLine();
     }
 
 }
