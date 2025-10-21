@@ -1,4 +1,7 @@
-
-7;lina;10:00;11:00;Aug;12;Pending
-2;gustav;12:00;13:00;Oct;17;Pending
-5;david;8:00;9:00;Nov;1;Pending
+karin;lina;10:00;11:00;Aug;12;Accepted
+david;gustav;12:00;13:00;Oct;17;Declined
+imran;david;8:00;9:00;Nov;1;Declined
+karin;gustav;14:00;15:00;Feb;14;Accepted
+lina;max;14:00;15:00;Aug;15;Accepted
+imran;gustav;9:00;10:00;Mar;19;Pending
+samaad;david;16:00;17:00;Apr;22;Pending

@@ -228,14 +228,12 @@ public class Filemanage
     }
     public static void ReqBooking(List<Staff> staff, string user, string BookingFilepath)
     {
-        int i = 1;
         foreach (Staff staffer in staff)
         {
-            System.Console.WriteLine($"{i}. {staffer.Username}");
-            i++;
+            System.Console.WriteLine($"{staffer.Username}");
         }
         System.Console.Write("What doctor do you wanna meet?: ");
-        string doctor = Console.ReadLine();
+        string staffSelect = Console.ReadLine();
         System.Console.Write("What time would you like to meet?(8-16): ");
         string time = Console.ReadLine();
         System.Console.Write("What month would you like to meet?(Feb-Nov): ");
@@ -245,10 +243,180 @@ public class Filemanage
         int.TryParse(time, out int timer);
         using (StreamWriter writer = new StreamWriter(BookingFilepath, append: true))
         {
-            writer.WriteLine($"{doctor};{user};{timer}:00;{timer + 1}:00;{month};{day};Pending");
+            writer.WriteLine($"{staffSelect};{user};{timer}:00;{timer + 1}:00;{month};{day};Pending");
         }
         System.Console.WriteLine("Appointment Requested! Press Enter to continue.");
         Console.ReadLine();
+    }
+
+    public static void RegBooking(List<Patient> patients, string user, string BookingFilepath)
+    {
+        foreach (Patient patient in patients)
+        {
+            System.Console.WriteLine($"{patient.Email}");
+        }
+        System.Console.Write("What patient do you wanna meet?: ");
+        string patientSelect = Console.ReadLine();
+        System.Console.Write("What time would you like to meet?(8-16): ");
+        string time = Console.ReadLine();
+        System.Console.Write("What month would you like to meet?(Feb-Nov): ");
+        string month = Console.ReadLine();
+        System.Console.Write("What day?(1-28): ");
+        string day = Console.ReadLine();
+        int.TryParse(time, out int timer);
+        using (StreamWriter writer = new StreamWriter(BookingFilepath, append: true))
+        {
+            writer.WriteLine($"{user};{patientSelect};{timer}:00;{timer + 1}:00;{month};{day};Accepted");
+        }
+        System.Console.WriteLine("Appointment Registered! Press Enter to continue.");
+        Console.ReadLine();
+    }
+
+    public static void HandleBooking(List<Patient> patients, string user, string BookingFilepath)
+    {
+        string[] lines = File.ReadAllLines(BookingFilepath);
+        string[] lineArray = new string[lines.Count()];
+        string[] lineSplit = new string[0];
+        int i = 0;
+        for (i = 0; i < lines.Length; i++)
+        {
+            if (lines[i].Contains("Pending"))
+            {
+                lineArray[i] = lines[i];
+            }
+        }
+        i = 0;
+        foreach (string line1 in lineArray)
+        {
+            if (line1 != null)
+            {
+                string[] line1Split = line1.Split(";");
+                System.Console.WriteLine($"{i}.>Doctor:{line1Split[0]}");
+                System.Console.WriteLine($"    >Patient:{line1Split[1]}");
+                System.Console.WriteLine($"    >Time:{line1Split[2]}-{line1Split[3]}");
+                System.Console.WriteLine($"    >Date:{line1Split[4]} {line1Split[5]}");
+                System.Console.WriteLine($"    >Status:{line1Split[6]}");
+                System.Console.WriteLine();
+            }
+            i++;
+        }
+        System.Console.WriteLine("What bookings do you wanna respond to?");
+        string lineSelect = Console.ReadLine();
+        int.TryParse(lineSelect, out int lineNumber);
+        System.Console.WriteLine("1. Accept or 2. Decline?");
+        string choiceSelect = Console.ReadLine();
+        if (choiceSelect == "1")
+        {
+            lineSplit = lineArray[lineNumber].Split(";");
+            lineSplit[6] = "Accepted";
+        }
+        if (choiceSelect == "2")
+        {
+            lineSplit = lineArray[lineNumber].Split(";");
+            lineSplit[6] = "Declined";
+        }
+        for (i = 0; i < lines.Length; i++)
+        {
+            if (lines[i].Contains(lineSplit[0]) && lines[i].Contains(lineSplit[1]) && lines[i].Contains("Pending"))
+            {
+                lines[i] = string.Join(";", lineSplit);
+            }
+        }
+        File.WriteAllLines(BookingFilepath, lines);
+    }
+
+    public static void EditBooking(List<Patient> patients, string user, string BookingFilepath)
+    {
+        string[] lines = File.ReadAllLines(BookingFilepath);
+        string[] lineArray = new string[lines.Count()];
+        string[] lineSplit = new string[0];
+        int i = 0;
+        for (i = 0; i < lines.Length; i++)
+        {
+            if (lines[i].Contains("Accepted"))
+            {
+                lineArray[i] = lines[i];
+            }
+        }
+        i = 0;
+        foreach (string line1 in lineArray)
+        {
+            if (line1 != null)
+            {
+                string[] line1Split = line1.Split(";");
+                System.Console.WriteLine($"{i}.>Doctor:{line1Split[0]}");
+                System.Console.WriteLine($"    >Patient:{line1Split[1]}");
+                System.Console.WriteLine($"    >Time:{line1Split[2]}-{line1Split[3]}");
+                System.Console.WriteLine($"    >Date:{line1Split[4]} {line1Split[5]}");
+                System.Console.WriteLine($"    >Status:{line1Split[6]}");
+                System.Console.WriteLine();
+            }
+            i++;
+        }
+        System.Console.WriteLine("What bookings do you wanna Edit to?");
+        string lineSelect = Console.ReadLine();
+        int.TryParse(lineSelect, out int lineNumber);
+        System.Console.WriteLine("What do you wanna edit?");
+        System.Console.WriteLine("1. Time");
+        System.Console.WriteLine("2. Date");
+        string choiceSelect = Console.ReadLine();
+        if (choiceSelect == "1")
+        {
+            System.Console.Write("What time?(8-16): ");
+            string timeSelect = Console.ReadLine();
+            int.TryParse(timeSelect, out int timeNumber);
+            lineSplit = lineArray[lineNumber].Split(";");
+            lineSplit[2] = $"{timeNumber}:00";
+            lineSplit[3] = $"{timeNumber + 1}:00";
+        }
+        if (choiceSelect == "2")
+        {
+            System.Console.Write("What month would you like to meet?(Feb-Nov): ");
+            string month = Console.ReadLine();
+            System.Console.Write("What day?(1-28): ");
+            string day = Console.ReadLine();
+            lineSplit = lineArray[lineNumber].Split(";");
+            lineSplit[4] = month;
+            lineSplit[5] = day;
+        }
+        for (i = 0; i < lines.Length; i++)
+        {
+            if (lines[i].Contains(lineSplit[0]) && lines[i].Contains(lineSplit[1]) && lines[i].Contains("Accepted"))
+            {
+                lines[i] = string.Join(";", lineSplit);
+            }
+        }
+        File.WriteAllLines(BookingFilepath, lines);
+    }
+
+    public static void DoctorSchedule(string user, string BookingFilepath)
+    {
+        string[] lines = File.ReadAllLines(BookingFilepath);
+        foreach (string line in lines)
+        {
+            string[] lineSplit = line.Split(";");
+            if (lineSplit[0] == user)
+            {
+                System.Console.WriteLine($"Patient: {lineSplit[1]}");
+                System.Console.WriteLine($"Time: {lineSplit[2]}-{lineSplit[3]}");
+                System.Console.WriteLine($"Date: {lineSplit[4]} {lineSplit[5]}");
+            }
+        }
+    }
+    
+    public static void PatientSchedule(string user, string BookingFilepath)
+    {
+        string[] lines = File.ReadAllLines(BookingFilepath);
+        foreach (string line in lines)
+        {
+            string[] lineSplit = line.Split(";");
+            if (lineSplit[1] == user)
+            {
+                System.Console.WriteLine($"Doctor: {lineSplit[0]}");
+                System.Console.WriteLine($"Time: {lineSplit[2]}-{lineSplit[3]}");
+                System.Console.WriteLine($"Date: {lineSplit[4]} {lineSplit[5]}");
+            }
+        }
     }
 
 }

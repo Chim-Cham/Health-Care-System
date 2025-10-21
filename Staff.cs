@@ -71,7 +71,7 @@ public class Staff : IUser
         }
     }
 
-    public bool Menu(List<Patient> patient, string JournalFilepath)
+    public bool Menu(List<Patient> patient, string JournalFilepath, string BookingFilepath)
     {
         bool runningStaff = true;
         bool logout = false;
@@ -83,7 +83,7 @@ public class Staff : IUser
             Console.WriteLine("-----Healtcare-----");
             Console.WriteLine("1. Schedual");
             Console.WriteLine("2. View Journal");
-            Console.WriteLine("3 Write Journal");
+            Console.WriteLine("3. Write Journal");
             Console.WriteLine("4. booking");
             Console.WriteLine("5. Logout");
             Console.WriteLine("6. Quit");
@@ -91,6 +91,7 @@ public class Staff : IUser
             switch (Console.ReadLine())
             {
                 case "1":
+                    Filemanage.DoctorSchedule(Username, BookingFilepath);
                     break;
 
                 case "2":
@@ -103,6 +104,24 @@ public class Staff : IUser
                     break;
 
                 case "4":
+                    System.Console.WriteLine("What do you wanna do?");
+                    System.Console.WriteLine("1. Register");
+                    System.Console.WriteLine("2. Respond");
+                    System.Console.WriteLine("3. Edit");
+                    string bookingSelet = Console.ReadLine();
+                    System.Console.WriteLine();
+                    switch(bookingSelet)
+                    {
+                        case "1":
+                            Filemanage.RegBooking(patient, Username, BookingFilepath);
+                            break;
+                        case "2":
+                            Filemanage.HandleBooking(patient, Username, BookingFilepath);
+                            break;
+                        case "3":
+                            Filemanage.EditBooking(patient, Username, BookingFilepath);
+                            break;
+                    }
                     break;
 
                 case "5":
