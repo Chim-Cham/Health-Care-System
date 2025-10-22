@@ -1,4 +1,5 @@
-namespace HCS;
+// Oänvand test kod
+/* namespace HCS;
 
 public class Journal
 {
@@ -12,4 +13,4 @@ public class Journal
         PatientName = patientname;
         Notes = notes;
     }
-}
+} */

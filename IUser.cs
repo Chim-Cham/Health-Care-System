@@ -1,6 +1,6 @@
 
 namespace HCS;
-
+// Allt innanför är krav för interfaces som använder IUser
 public interface IUser
 {
     public bool TryLogin(string username, string password);

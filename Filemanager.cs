@@ -259,7 +259,7 @@ public class Filemanage
         Console.ReadLine();
     }
 
-// regBooking är för staffs point of view 
+    // regBooking är för staffs point of view 
     public static void RegBooking(List<Patient> patients, string user, string BookingFilepath)
     {
         try { Console.Clear(); } catch { }
@@ -283,20 +283,24 @@ public class Filemanage
         System.Console.WriteLine("Appointment Registered! Press Enter to continue.");
         Console.ReadLine();
     }
-
+    // funktion för staff att kunna acceptera eller neka bookings som har lagts till i systemet
     public static void HandleBooking(List<Patient> patients, string user, string BookingFilepath)
     {
         string[] lines = File.ReadAllLines(BookingFilepath);
         string[] lineArray = new string[lines.Count()];
         string[] lineSplit = new string[0];
+        // kollar igenom "Booking.txt" för alla bookings som har status "pending" och läger till dem in lineArray
         int i = 0;
+        int e = 1;
         for (i = 0; i < lines.Length; i++)
         {
             if (lines[i].Contains("Pending"))
             {
-                lineArray[i] = lines[i];
+                lineArray[e] = lines[i];
+                e++;
             }
         }
+        // skriver ut alla bookings som hittades och lades till i lineArray
         i = 0;
         foreach (string line1 in lineArray)
         {
@@ -312,9 +316,12 @@ public class Filemanage
             }
             i++;
         }
+        // användare anger vilket booking man vill acceptera eller neka, tack vare att vi la till 
+        // alla bookings med pending i si egen array så blir det ett enkelt ange 1-5 exempel
         System.Console.WriteLine("What bookings do you wanna respond to?");
         string lineSelect = Console.ReadLine();
         int.TryParse(lineSelect, out int lineNumber);
+        // användare ger anger sedan om man vill acceptera eller neka bookingen
         System.Console.WriteLine("1. Accept or 2. Decline?");
         string choiceSelect = Console.ReadLine();
         if (choiceSelect == "1")
@@ -327,6 +334,8 @@ public class Filemanage
             lineSplit = lineArray[lineNumber].Split(";");
             lineSplit[6] = "Declined";
         }
+        // för att sedan uppdatera "Booking.txt" så går man igenom lines array igen för att hitta den 
+        // booking man nekade eller accepterade och byter ut den mot den nya bookingen.
         for (i = 0; i < lines.Length; i++)
         {
             if (lines[i].Contains(lineSplit[0]) && lines[i].Contains(lineSplit[1]) && lines[i].Contains("Pending"))
@@ -334,11 +343,14 @@ public class Filemanage
                 lines[i] = string.Join(";", lineSplit);
             }
         }
+        // all data man importerade från "Booking.txt" skrivs sedan tillbaka in i filen men dem ändringar som gjorts
         File.WriteAllLines(BookingFilepath, lines);
     }
-
+    // funktion för staff att kunna göra ändringar till bookings som har lagts till i systemet
+    // som det är skrivet är bara bookings som är accepterade tillgängliga för ändring.
     public static void EditBooking(List<Patient> patients, string user, string BookingFilepath)
     {
+        // Samma logik som används för HandleBooking men hanterar ändring som har att göra med tid och datum
         string[] lines = File.ReadAllLines(BookingFilepath);
         string[] lineArray = new string[lines.Count()];
         string[] lineSplit = new string[0];
@@ -400,7 +412,8 @@ public class Filemanage
         }
         File.WriteAllLines(BookingFilepath, lines);
     }
-
+    // Logik som går igenom alla bookings och skriver ut de som har matchande namn till den inloggade användaren. I detta fallet 
+    // alla bookings där den ingloggade doktorn är listad.
     public static void DoctorSchedule(string user, string BookingFilepath)
     {
         string[] lines = File.ReadAllLines(BookingFilepath);
@@ -414,8 +427,9 @@ public class Filemanage
                 System.Console.WriteLine($"Date: {lineSplit[4]} {lineSplit[5]}");
             }
         }
+        Console.ReadLine();
     }
-    
+    // Samma logik som DoctorSchedule men för patienter
     public static void PatientSchedule(string user, string BookingFilepath)
     {
         string[] lines = File.ReadAllLines(BookingFilepath);
@@ -429,6 +443,7 @@ public class Filemanage
                 System.Console.WriteLine($"Date: {lineSplit[4]} {lineSplit[5]}");
             }
         }
+        Console.ReadLine();
     }
 
 }
