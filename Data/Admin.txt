@@ -1,5 +1,5 @@
-lina;admin;Skåne;Registration,
-david;admin;Blekinge;AssignPermission,
-gustav;admin;Halland;
+lina;admin;Skåne;Registration,Location,AssignPermission,AddStaff,ViewPermissions,
+david;admin;Blekinge;AssignPermission,Registration,addStaff
+gustav;admin;Halland;Registration,
 samaad;admin;Halland;
 imran;admin;Kronoberg;

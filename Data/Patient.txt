@@ -5,3 +5,4 @@ gustav;patient;Pending
 harris;password;Pending
 max;password;Pending
 havash;password;Pending
+lasse;password;Pending
