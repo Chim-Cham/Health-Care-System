@@ -370,7 +370,7 @@ public class Admin : IUser
     }
 
 
-    public void assignAdminRegion(string LocationFilepath, List<Admin> admins, string AdminFilepath)
+    public void assignAdminRegion(List<Admin> admins, string AdminFilepath)
     {
         try { Console.Clear(); } catch { }
         Console.WriteLine("Choose the admin you want to assign");
@@ -522,7 +522,7 @@ public class Admin : IUser
                 case "1":
                     if (admin.Permissions.Contains("AssignRegion"))
                     {
-                        assignAdminRegion(LocationFilepath, admins, AdminFilepath);
+                        assignAdminRegion(admins, AdminFilepath);
                         break;
                     }
                     else
