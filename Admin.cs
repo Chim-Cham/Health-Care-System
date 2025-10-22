@@ -370,31 +370,35 @@ public class Admin : IUser
     }
 
 
-    public void assignAdminRegion(string LocationFilepath, List<Admin> admins, string AdminFilepath)
+    public void assignAdminRegion(List<Admin> admins, string AdminFilepath)
     {
         try { Console.Clear(); } catch { }
         Console.WriteLine("Choose the admin you want to assign");
+        //visar alla admins så användaren kan välja en
         foreach (Admin admin in admins)
         {
             Console.WriteLine(admin.Username);
         }
+        //Läser in användarens val 
         string selectedAdmin = Console.ReadLine();
+        //skapar en admin varibel som initialt är null
         Admin? choosenAdmin = null;
         foreach (Admin admin in admins)
         {
             if (admin.Username == selectedAdmin)
             {
+                //sparar rätt admin i variabeln
                 choosenAdmin = admin;
-                // Console.WriteLine("admin:" + admin.Username);
-                // Console.ReadLine();
             }
         }
         try { Console.Clear(); } catch { }
+        //frågar vilken region valda adminen ska tilldelas
         Console.WriteLine($"Which region do you want assign {choosenAdmin.Username} to?");
         Console.WriteLine("blekinge, halland, skåne eller kronoberg? ");
         string assignRegionText = "";
         string choosenRegion = Console.ReadLine();
 
+        //Tilldelar region beroende på input
         if (choosenRegion == "blekinge")
         {
             choosenAdmin.Region = AllRegions.Blekinge;
@@ -410,47 +414,57 @@ public class Admin : IUser
         {
             choosenAdmin.Region = AllRegions.Skåne;
             assignRegionText = "Skåne";
-            // Console.WriteLine(choosenAdmin.Region);
-            // Console.ReadLine();
         }
         else if (choosenRegion == "kronoberg")
         {
             choosenAdmin.Region = AllRegions.Kronoberg;
             assignRegionText = "Kronoberg";
         }
-        else if (choosenRegion == null)
-        {
+        else
+        { //ogiltlig input avbryter metoden 
             Console.WriteLine("Region not found, press ENTER to go back to menu");
             Console.ReadLine();
+            return;
         }
 
+        //förbereder en lista, som ska innehålla uppdaterade rader från admin-filen
         List<string> updatedLinesAdmin = new List<string>();
 
+        //läser in admin-filen rad för rad 
         using (StreamReader reader = new StreamReader(AdminFilepath))
         {
-            string line;
+            string line;         //om ej tomma
             while ((line = reader.ReadLine()) != null)
             {
+                //splitar line vid ;
                 string[] parts = line.Split(';');
                 if (parts[0] == choosenAdmin.Username)
                 {
+                    //gör om array till lista för att lättare ändra
                     List<string> partsList = parts.ToList();
+                    //ser till att listan har minst 3 element
                     while (partsList.Count <= 2)
                     {
                         partsList.Add("");
                     }
+                    //uppdaterar regionsfältet i listan
                     partsList[2] = assignRegionText;
 
+                    //sätter ihop listan till en sträng med ;
                     string updatedLine = string.Join(";", partsList);
+
+                    //lägger till uppdaterad rad i listan 
                     updatedLinesAdmin.Add(updatedLine);
                 }
                 else
                 {
+                    //andra rader behålls oförändrade
                     updatedLinesAdmin.Add(line);
                 }
             }
         }
 
+        //skriver tillbaka alla uppdaterade rader till admin-filen
         using (StreamWriter writer = new StreamWriter(AdminFilepath, append: false))
         {
             foreach (string line in updatedLinesAdmin)
@@ -508,7 +522,7 @@ public class Admin : IUser
                 case "1":
                     if (admin.Permissions.Contains("AssignRegion"))
                     {
-                        assignAdminRegion(LocationFilepath, admins, AdminFilepath);
+                        assignAdminRegion(admins, AdminFilepath);
                         break;
                     }
                     else

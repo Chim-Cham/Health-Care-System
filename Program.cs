@@ -1,11 +1,11 @@
 ﻿using HCS;
 
-// List<IUser> users = new();
+// lister av IUsers som sparas temporärt.
 List<Patient> patients = new();
 List<Admin> admins = new();
 List<Staff> staff = new();
 
-
+//Alla file paths för lättare hantering. 
 string AdminFilepath = Path.Combine("Data", "Admin.txt");
 string PatientFilePath = Path.Combine("Data", "Patient.txt");
 string StaffFilepath = Path.Combine("Data", "Staff.txt");
@@ -14,18 +14,21 @@ string LocationFilepath = Path.Combine("Data", "Location.txt");
 string BookingFilepath = Path.Combine("Data", "Booking.txt");
 
 
-
+// skapar en active user som är baserad på IUser men kallar den activa användarens roll.
 IUser? active_user = null;
 bool running = true;
 
 //kallar metoden EnsurePath för alla 3 txt filer
 Filemanage.EnsurePath(AdminFilepath, PatientFilePath, StaffFilepath, JournalFilepath, LocationFilepath);
 
+// kallar metoden för att ladda alla användare. 
 Filemanage.LoadUsers(AdminFilepath, PatientFilePath, StaffFilepath, admins, patients, staff);
 
 
+// skaparr den första menyn som är i en loop
 while (running)
 {
+    //ifall ingen är inloggad så körs denna menyn.
     if (active_user == null)
     {
         //meny valen! Välj med 1-3
@@ -52,6 +55,7 @@ while (running)
             try { Console.Clear(); } catch { }
             foreach (Patient user in patients)
             {
+                // Loppar igenom alla patienter i listan för patienter
                 if (user.TryLogin(username, password))
                 {
                     active_user = user;
@@ -62,6 +66,7 @@ while (running)
             {
                 foreach (Admin user in admins)
                 {
+                // Loppar igenom alla Admins i listan för Admins                    
                     if (user.TryLogin(username, password))
                     {
                         active_user = user;
@@ -75,6 +80,7 @@ while (running)
             {
                 foreach (Staff user in staff)
                 {
+                // Loppar igenom all personal i listan för personal
                     if (user.TryLogin(username, password))
                     {
                         active_user = user;
@@ -110,17 +116,23 @@ while (running)
     {
         try { Console.Clear(); } catch { }
 
+        // skapar en switch case som kallar på de olika meny metoderna för det olika användare som finns.
         switch (active_user.GetRole())
         {
+            //Ifall active_user == Admin
             case Role.Admin:
-                bool adminLoggedOut = ((Admin)active_user).Menu(StaffFilepath, patients, Status.Pending, PatientFilePath, LocationFilepath,(Admin) active_user ,admins, AdminFilepath);
+                //Detta är en boolian på grund av att vi skulle kunna logga ut eller stänga programmet som specifik användare.
+                //På höger sida om (=) är biten för att kalla på metoden för specifik menyn.
+                // I det vi gör efter menyn är allt som vi måste hämta från Specifika .cs filer, med alla metoder som vi instansierar i de olika metoderna.
+                bool adminLoggedOut = ((Admin)active_user).Menu(StaffFilepath, patients, Status.Pending, PatientFilePath, LocationFilepath, (Admin)active_user, admins, AdminFilepath);
+                // Här hämtas ett return värde från de specifika menyerna för att logga ut.
                 if (adminLoggedOut)
                 {
-                    active_user = null; // loggar ut admin och går till login
+                    active_user = null; // loggar ut admin och går till start menyn!
                 }
                 else
                 {
-                    running = false;
+                    running = false; // Quit
                 }
 
                 break;

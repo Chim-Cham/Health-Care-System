@@ -1,5 +1,6 @@
 namespace HCS;
-
+// enums för att ange i vilken region en användare arbetar, p.g.a. tidbegränsingar och misskommunikation 
+// så används dem inte i booking systememt för att kunna se VAR en patient eller en doktor har ett möte
 public enum AllRegions
 {
     none,

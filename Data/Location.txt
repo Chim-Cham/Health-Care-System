@@ -1,2 +1,3 @@
 södervärn; Skåne
 vårdcentral värnhem; Skåne
+centrum; Halland

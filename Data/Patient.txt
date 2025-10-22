@@ -3,5 +3,6 @@ lina;patient;Pending
 david;patient;Pending
 gustav;patient;Pending
 harris;password;Pending
-max;password;Pending
+max;password;Accepted
 havash;password;Pending
+lasse;password;Pending
