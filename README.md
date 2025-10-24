@@ -24,3 +24,7 @@ and all those methods are in the same file, for instance all methods concerning 
 Miro:
 https://miro.com/welcomeonboard/NUUrY3AvYUNMYkRuQXVlcW1KSGZPaEtkUUFrTE15dzMranBHb0srSlB4UXVXYXp6U3NpQWZLRXY1SGlORDhDeTM5WkErMHlsWFhkcjFycXdEVEZnY1FmcEVGUWtWL1N3TEZlQ29lTnFNaFExM25sWFhEUWd4dTlqdVBaeDQvQ2JQdGo1ZEV3bUd
 PQWRZUHQzSGl6V2NBPT0hdjE=?share_link_id=59720352353
+
+This link is for the read and write exampel from nodehill that we used many times our logic.
+Nodehill: 
+https://mai25ma-ha.lms.nodehill.se/article/kodexempel-lasa-skriva-till-file-med-anvandare
